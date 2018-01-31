@@ -44,6 +44,9 @@ class LogOut(View):
         logout(request)
         return HttpResponse('账户退出成功')
 
+def permit(request):
+    return render(request, 'public/permit.html')
+
 
 
 # Create your views here.

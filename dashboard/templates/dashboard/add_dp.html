@@ -1,0 +1,65 @@
+<form method="post" action="/k8s/dp/add" class="form-horizontal" role="form" id="form_data" onsubmit="return check_form()" style="margin: 20px;">
+        <div class="form-group">
+            <label for="exampleInputName2" class="col-sm-3 control-label" >namespaces：</label>
+               <div class="col-md-3 col-md-offset-3">
+                    <div class="controls">
+                        <select class="input-xlarge" style="width:200px" id="sns" name="ns">
+                            </select>
+                          </div>
+                        </div>
+                  </div>
+                   <div class="form-group">
+                        <label for="exampleInputName2" class="col-sm-3 control-label" >project：</label>
+                        <div class="col-md-3 col-md-offset-3">
+                          <div class="controls">
+                            <select class="input-xlarge" id="pj" style="width:200px" name="project">
+                            </select>
+                          </div>
+                        </div>
+                   </div>
+
+
+                       <div class="form-group">
+                        <label for="exampleInputName2" class="col-sm-3 control-label" >image：</label>
+                        <div class="col-md-3 col-md-offset-3">
+                          <div class="controls">
+                            <select class="input-xlarge" id="img" style="width:200px" name="image">
+                            </select>
+                          </div>
+                        </div>
+                   </div>
+
+
+                  <div class="form-group">
+                        <label for="exampleInputName2" class="col-sm-3 control-label"  >version：</label>
+                        <div class="col-md-3 col-md-offset-3">
+                          <div class="controls">
+                            <select class="input-xlarge" id="tags" style="width:200px" name="tags">
+                            </select>
+                          </div>
+                        </div>
+                   </div>
+
+
+                  <div class="form-group">
+                        <label for="exampleInputName2" class="col-sm-3 control-label "  >RC：</label>
+                            <div class="input-group col-md-3 col-md-offset-3">
+                              <input type="text" class="form-control" placeholder="RC" name="rc"  value="rc">
+                            </div>
+                  </div>
+
+
+                  <div class="form-group">
+                        <label for="exampleInputName2" class="col-sm-3 control-label "  >env：</label>
+                            <div class="input-group col-md-3 col-md-offset-1">
+                              <input type="text" class="form-control" placeholder="online/test"  name="env">
+                            </div>
+                  </div>
+
+
+                    <div class="modal-footer">
+                        <input class="btn btn-info" data-dismiss="modal" ari-hidden="true" type="submit" id="create_group_btn" value="提交">
+                        <input class="btn btn-default" data-dismiss="modal" ari-hidden="true" type="button" value="Cancel">
+                    </div>
+
+</form>

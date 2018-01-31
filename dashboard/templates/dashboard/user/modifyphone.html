@@ -1,0 +1,40 @@
+{% extends "dashboard/public/layout.html" %}
+
+{% block body %}
+<form class="form-horizontal" method="post">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-3">
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Email" value="{{ user_obj.email }}" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">手机号</label>
+    <div class="col-sm-3">
+      <input type="hidden" name="user_id" value={{ user_obj.id }}>
+      <input  class="form-control" id="inputEmail3" placeholder="phone" name='pnum'">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <input type="hidden" name="user" value={{ user_obj.id }}>
+      <button type="submit" class="btn btn-default">Sign in</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block js %}
+    <script>
+        console.log("index view")
+    </script>
+{% endblock %}

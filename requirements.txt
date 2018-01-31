@@ -1,0 +1,4 @@
+pyquery==1.4.0
+django==2.0.1
+kubernetes
+pyquery
