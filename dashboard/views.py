@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 class IndexView(View):
     #method_decorator 装饰器将函数装饰器转换成方法装饰器，这样它才可以用于实例方法上
-    @method_decorator(login_required)
+    @method_decorator(login_required( redirect_field_name='next', login_url='/login/'))
     def get(self,request):
         return render(request, 'dashboard/public/index.html')
 
@@ -18,6 +18,7 @@ class LogIn(View):
     def get(self, request):
         return render(request, 'dashboard/login.html', {'title': 'rebbot 运维'})
 
+    @method_decorator(login_required(redirect_field_name='next', login_url='/login/'))
     def post(self, request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
@@ -39,13 +40,13 @@ class DefaultView(View):
         return HttpResponse('default')
 
 class LogOut(View):
-    @method_decorator(login_required)
+    @method_decorator(login_required(redirect_field_name='next', login_url='/login/'))
     def get(self, request):
         logout(request)
         return HttpResponse('账户退出成功')
 
 def permit(request):
-    return render(request, 'public/permit.html')
+    return render(request, 'dashboard/public/permit.html')
 
 
 

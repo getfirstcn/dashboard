@@ -15,9 +15,17 @@ from django.shortcuts import loader, render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView, View, ListView
 from django.template import RequestContext, loader
+from django.contrib.auth.decorators import login_required
 from . import repitl
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Permission, User
+from django.utils.decorators import method_decorator
 import json
 
+
+perm_add_server = Permission.objects.get(codename='add_server')
+@login_required(redirect_field_name='next', login_url='/login/')
+@permission_required('dashboard.add_server', login_url='/login/')
 def pod_list(request):
     config.load_kube_config()
     v1 = client.CoreV1Api()
@@ -26,9 +34,11 @@ def pod_list(request):
     template = loader.get_template('dashboard/pod.html')
     return HttpResponse(template.render({'latest_question_list': latest_question_list}, request))
 
+
 class ns_list(TemplateView):
     template_name = 'dashboard/namespace.html'
 
+    #@method_decorator(permission_required('dashboard.add_server',  login_url='/login/'))
     def get_context_data(self, **kwargs):
         config.load_kube_config()
         v1 = client.CoreV1Api()
@@ -38,7 +48,6 @@ class ns_list(TemplateView):
 
         context = super(ns_list, self).get_context_data(**kwargs)
         context['ns'] = ns
-
         return context
 
     def post(self, request):
