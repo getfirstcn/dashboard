@@ -18,7 +18,7 @@ class LogIn(View):
     def get(self, request):
         return render(request, 'dashboard/login.html', {'title': 'rebbot 运维'})
 
-    @method_decorator(login_required(redirect_field_name='next', login_url='/login/'))
+    #@method_decorator(login_required(redirect_field_name='next', login_url='/dashboard/'))
     def post(self, request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
@@ -47,6 +47,9 @@ class LogOut(View):
 
 def permit(request):
     return render(request, 'dashboard/public/permit.html')
+
+def layout(request):
+    return render(request, 'dashboard/kubernetes/addDeployment.html')
 
 
 

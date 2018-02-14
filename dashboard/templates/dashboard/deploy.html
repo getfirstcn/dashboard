@@ -21,7 +21,7 @@
 {% for i in deploys %}
 <tr>
     <td>{{ forloop.counter }}</td>
-    <td>{{ i.metadata.name }}</td>
+    <td class={{ i.metadata.name }}>{{ i.metadata.name }}</td>
     <td>{{ i.metadata.namespace }}</td>
     <td>{{ i.status.available_replicas }}</td>
     <td>{{ i.status.replicas }}</td>
@@ -32,16 +32,19 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/user/modp/?user={{ i.id }}">修改RC</a></li>
-                       <li>
-                         <a id="modal_button_{{ i.metadata.name }}" class="red" href="#modal_form"
-                            data-toggle="modal" rel="{{ i.metadata.name }}" content="{{ i.metadata.namespace }}"
-                         title="删除信息">
-                            <span class="red">
-                               <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                            </span>
-                            </a>
-                        </li>
+                    {% include "dashboard/kubernetes/dropdownMenulModifyDploy.html" %}
+
+                    <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="/user/modp/?user={{ i.id }}">修改RC</a></li>-->
+                       <!--<li>-->
+                         <!--<a id="modal_button_{{ i.metadata.name }}" class="red" href="#modal_form"-->
+                            <!--data-toggle="modal" rel="{{ i.metadata.name }}" content="{{ i.metadata.namespace }}"-->
+                         <!--title="删除信息">-->
+                            <!--<span class="red">-->
+                               <!--<i class="ace-icon fa fa-trash-o bigger-120"></i>-->
+                            <!--</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
                 </ul>
             </div>
         </td>
@@ -59,9 +62,8 @@
         </div>
     </div>
 </div>
-
-
-
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
  <div class="modal fade" id="modal_form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -103,8 +105,7 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
+{% include "dashboard/kubernetes/modifyDployBox.html" %}
 
 
 <!--删除信息按钮，为每个删除按钮设置一个id，并将content和title传递给modal-->
@@ -112,171 +113,11 @@
 
 {% endblock %}
 {% block js%}
+
 <script>
-            $(function(){
-             // 下拉列表
-            $("#add_dp").click(function () {
-            var create_group_modal=$('#create_group')
-            create_group_modal.modal('show')
-            //window.location.href="http://127.0.0.1:8880/k8s/select/add";
-            // 执行添加用户组
-            $('#create_group_btn').click(function () {
-
-                var gropu_input = $('#form_groupname');
-                var group_value = gropu_input.val();
-                console.log(group_value)
-                if (group_value == ''){
-                    swal('add filed','username is not null', 'error')
-                    return false
-                }
-                create_group_modal.modal('hide')
-                $.post('', {'name': group_value}, function (res) {
-                    console.log(res)
-                    if (res.status == 0 ){
-                        swal({
-                            'title': 'add success',
-                            'text': '',
-                            'type': 'success',
-                        },function () {
-                            setTimeout(function () {
-                                window.location.reload()
-                            },50);
-                        })
-                    }else{
-                        console.log(res.msg)
-                        swal('操作失败', res.msg, 'error')
-                    }
-                })
-            })
-        })
-
-
-
-               // 渲染 img
-
-            $('#img').click(function () {
-                var a = $('#pj').val()
-                console.log(a)
-                $.ajax({
-                    type:"POST",
-                    data: {"pid": a},
-                    url:"http://127.0.0.1:8880/k8s/select/img",
-
-                    success:function(data) {
-                        $("#img").empty()
-                        // var nw = JSON.parse(data)
-                        console.log(data)
-                        for (var i in data) {
-                            $("#img").append("<option value="+data[i]+ ">"+data[i]+ "</option>")
-                        }
-                    }
-                });
-            })
-
-
-               // 渲染 tags
-
-            $('#tags').click(function () {
-                var a = $('#img').val()
-                console.log(a)
-                $.ajax({
-                    type:"POST",
-                    data: {"image": a},
-                    url:"http://127.0.0.1:8880/k8s/select/tags",
-                    success:function(data) {
-                        $("#tags").empty()
-                        // var nw = JSON.parse(data)
-                        console.log(data)
-                        for (var i in data) {
-                            $("#tags").append("<option value="+data[i]+ ">"+data[i]+ "</option>")
-                        }
-                    }
-                });
-            })
-
-
-                // 渲染pj
-            $('#pj').click(function () {
-                $.ajax({
-                    type:"GET",
-                    url:"http://127.0.0.1:8880/k8s/select/pj",
-                    success:function(data) {
-                        $("#pj").empty()
-                        for (var i in data) {
-                            $("#pj").append("<option value="+i+ ">"+data[i]+ "</option>")
-                            console.log(i, data[i])
-                        }
-                    }
-                });
-            })
-
-
-
-
-             // 渲染ns
-             $('#sns').click(function () {
-                $.ajax({
-                    type:"GET",
-                    url:"http://127.0.0.1:8880/k8s/select/ns",
-                    success:function(data) {
-                        $("#sns").empty()
-                        // var nw = JSON.parse(data)
-                        console.log(data)
-                        for (var i in data) {
-                            $("#sns").append("<option value="+data[i]+ ">"+data[i]+ "</option>")
-                        }
-                    }
-                });
-            })
-
-
-
-
-
-
-        $("[href='#modal_form']").click(function(){
-              //定义modal_id，确保每个按钮所产生的id不一样，否则将会是最先遇到的那个
-            var modal_id = "#" + $(this).attr('id');
-            console.log(modal_id)
-            var dp_name = $(modal_id).attr('rel')
-            var ns_name = $(modal_id).attr('content')
-            console.log(dp_name)
-            console.log(ns_name)
-
-
-                //填充modal的各种元素
-                $('.modal-title').text('删除信息');
-                $('.modal-body').text('确认要删除DeployMent  '+$(modal_id).attr('rel')+'?');
-                 //form提交
-                $('#myForm').on('submit', function(e){
-                     //防止冒泡
-                     e.preventDefault();
-                     //提交到相应的rel上
-                  var  url = '/k8s/dp/delete'
-                  $.post(url, {'dp_name': dp_name, 'ns_name': ns_name},
-                     function(ret) {
-                         //网页返回正常且删除操作成功
-                         console.log('----------')
-                        if (ret.status==0){
-                             $('.modal-body').text('操作成功');
-                             $('.modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
-                        //提交失败的操作
-                         } else {
-                             $('.modal-body').text(ret.msg);
-                         $('.modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
-                     }
-                     });
-                });
-            });
-                    //当modal页面消失后，重新将页面刷新
-                    $(function () { $('#modal_form').on('hide.bs.modal', function () {
-                    window.location.reload();})
-               });
-                        var server_add_modal= $('#addUserModal')
-                        $('#add-server-btn').click(function () {
-                        server_add_modal.modal('show')
-                            });
-                            })
-
+    $(function(){
+        $("#add_dp").click(function () {
+            $('#create_group').show();
+    })})
 </script>
 {% endblock %}

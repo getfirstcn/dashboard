@@ -1,0 +1,45 @@
+<li role="presentation"><button class="modiyReplicate1 dropdownMenu" name={{ i.metadata.name }} >修改副本</button></li>
+<li role="presentation"><button class="modiyImage1 dropdownMenu" name={{ i.metadata.name }} >修改镜像</button></li>
+<li role="presentation"><button class="modiyPort1 dropdownMenu"  name={{ i.metadata.name }} >修改端口</button></li>
+ <li>
+     <a id="modal_button_{{ i.metadata.name }}" class="red" href="#modal_form"
+                            data-toggle="modal" rel="{{ i.metadata.name }}" content="{{ i.metadata.namespace }}"
+                         title="删除信息">
+ <span class="red">
+ <i class="ace-icon fa fa-trash-o bigger-120"></i>
+ </span>
+ </a>
+ </li>
+
+<div id="id01" class="modal">
+  <form class="modal-content animate" action="/dashboard/deploy/image/modify">
+    <div class="container">
+        <span onclick="document.getElementById('modiyImage1').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <label><b>镜像：</b></label>
+      <input type="text" placeholder="Enter Username" name="name" required>
+      <button type="submit">修改</button>
+    </div>
+  </form>
+</div>
+<!--<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">-->
+<!--</script>-->
+
+<style>
+  /* Full-width input fields */
+
+/* Set a style for all buttons */
+button.dropdownMenu {
+    background-color: #4CAF50;
+    color: white;
+    padding: 7px 10px;
+    margin: 4px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+</style>
+

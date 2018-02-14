@@ -1,0 +1,97 @@
+{% extends "dashboard/public/layout.html" %}
+
+{% block body %}
+<h3>创建应用</h3>
+<form id="add-deploy-table-1" action="/dashboard/deployment/" method="post" autocomplete="on">
+
+    项目名称：
+    <select id="project-1" name="project" form="add-deploy-table-1" required>
+              {% for project in projects %}
+
+        <option> {{ project.name }} </option>
+            {% endfor %}
+    </select><br>
+
+    镜像名称： <input id="images-1" list="imagenames" name="imageName" placeholder="镜像名称" autocomplete="off" size="35" required><br>
+    <datalist id="imagenames">
+
+
+	</datalist>
+
+    <script>
+
+    </script>
+    版本：  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="tag-1" list="tag-list" name="imageTag" placeholder="镜像版本">
+    <datalist id="tag-list">
+
+    </datalist><br>
+
+        应用名称： <input id="app-1" type="text" name="applyName" placeholder="应用名称" size="35" required>
+    <datalist id="apps-list">
+        {% for project in projects %}
+        <option value={{ project.name }}> {{ project.name }} </option>
+        {% endfor %}
+    </datalist>
+    <br>
+
+    服务端口： <input type="number" name="servicePort" placeholder="服务端口" min="1" max="65535"><br>
+    <input type="submit" value="部署">
+    <input type="submit" formaction="/dashboard/deploy/update/" formtarget="_blank" value="更新">
+</form>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+    //项目选择
+$(document).ready(function(){
+$("#project-1").change(function(){
+var project=$("#project-1").val();
+$("#imagenames").empty();
+$("#images-1").val("");
+$("#app-1").val("");
+$("#tag-1").val("");
+$("#tag-list").empty();
+$.post('/dashboard/repository/select/',{
+    "project":project
+},
+function(data,staus){
+    for (i in data.repositorires){
+//        alert(data.repositorires[i]);
+        $("#imagenames").append("<option value="+data.repositorires[i]+">");
+    }
+});
+});
+});
+// 镜像选择
+$(function () {
+  $("#images-1").change(function () {
+      var imagename=$("#images-1").val();
+      $("#tag-1").val('');
+      $("#tag-list").empty();
+      $.post("/dashboard/image/tag/get/",{"imagename":imagename}, function (data,status) {
+          for (i in data["tag"]){
+              $("#tag-list").append("<option value="+data["tag"][i]+">");
+          }
+      });
+      $.post('/user/current/get/',function (data,status) {
+          if ( imagename ) {
+              appName = data.username + "-" + imagename.replace(/\//g, '-');
+              $("#app-1").val(appName)
+          }
+          else
+          {
+              $("#tag-list").val('')
+          }
+      })
+  })
+});
+//$(function () {
+//        $("#clean-1").click(function () {
+//            $("#app-1").val('');
+//            alert("点了")
+//        });
+//    });
+</script>
+<!--<input id="clean-11" type="button" value="清除" onclick="">-->
+
+<!--<button id="clean-1" type="button">Click Me!</button>-->
+{% endblock %}

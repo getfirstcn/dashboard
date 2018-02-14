@@ -13,12 +13,15 @@ class LW(ListView):
     model = User
     paginate_by = 10
 
-    @method_decorator(login_required)
-    @method_decorator(permission_required('auth.view_user_list'))
+
+    @login_required(redirect_field_name='next', login_url='/login/')
+    #@permission_required('auth.view_user_list', login_url='/login/')
     def get(self, request, *args, **kwargs):
         return super(LW, self).get(request, *args, **kwargs)
 
 class Modify_status(View):
+    @login_required(redirect_field_name='next', login_url='/login/')
+    @permission_required('auth.change_user', login_url='/login/')
     def post(self, request):
         ret = {'status': 0}
         user_id = request.POST.get('user_id', None)
@@ -41,6 +44,7 @@ class Modify_status(View):
 
 class ModifyDepartmentView(TemplateView):
      template_name = 'dashboard/user/department.html'
+
      def get_context_data(self, **kwargs):
          context = super(ModifyDepartmentView, self).get_context_data(**kwargs)
          context['departments'] = Department.object.all()
@@ -51,6 +55,9 @@ class ModifyDepartmentView(TemplateView):
      def get(self, request, *args, **kwargs):
          self.request = request
          return super(ModifyDepartmentView, self).get(self, *args, **kwargs)
+
+     @login_required(redirect_field_name='next', login_url='/login/')
+     @permission_required('auth.change_group', login_url='/login/')
      def post(self, request):
          user_id = request.POST.get('user', None)
          dpart_id = request.POST.get('department', None)
@@ -83,6 +90,8 @@ class ModifyPhoneView(TemplateView):
     def get(self, request, *args, **kwargs):
         self.request = request
         return super(ModifyPhoneView, self).get(self, *args, **kwargs)
+    @login_required(redirect_field_name='next', login_url='/login/')
+    @permission_required('auth.change_user', login_url='/login/')
     def post(self, request):
         user_id = request.POST.get('user', None)
         phone_num = request.POST.get('pnum', None)
@@ -96,3 +105,8 @@ class ModifyPhoneView(TemplateView):
             return render(request, settings.TEMPLATE_JUMP, {'status':0, 'etx_url': '/user/userlist/'})
         except:
             return HttpResponse('err')
+
+def getCurrenUser(request):
+    username=request.user.username
+    print(username)
+    return JsonResponse({'username': username})

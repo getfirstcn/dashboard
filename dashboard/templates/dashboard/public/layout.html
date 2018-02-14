@@ -10,12 +10,29 @@
 <meta name="author" content="">
 
 <title>OPS {{ title }}</title>
-    {% load static %}
+        {% load static %}
+
+<!--js 部分-->
+    <script src="{% static 'dashboard/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'dashboard/jquery/jquery.cookie.js' %}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'dashboard/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'dashboard/chosen/chosen.jquery.min.js' %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static 'dashboard/datatable/datatable.js' %}"></script>
+    <script src="{% static 'dashboard/metismenu/metismenu.min.js' %}"></script>
+    <script src="{% static 'dashboard/validform.js' %}"></script>
+    <script src="{% static 'dashboard/bootstrap-multiselect.js' %}"></script>
+    <script src="{% static 'dashboard/alert/sweet-alert.min.js' %}"></script>
+    <script src="{% static 'dashboard/parsley/parsley.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/opsweb.js' %}"></script>
+    <script src="{% static 'dashboard/layui/layui.js' %}" charset="utf-8"></script>
+
 <link href="{% static 'dashboard/img/favicon.ico' %}" type="image/x-icon" rel="shortcut icon">
 
 <!--第三方插件样式-->
-<!--<link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'dashboard/bootstrap/css/bootstrap.min.css' %}">
 <link href="{% static 'dashboard/datatable/datatable.css' %}" rel="stylesheet">
 <link href="{% static 'dashboard/metismenu/metismenu.min.css' %}" rel="stylesheet">
 <link href="{% static 'dashboard/alert/sweet-alert.css' %}" rel="stylesheet">
@@ -121,7 +138,7 @@ button.detail{
 {% endblock %}
 <!--页面正文部分-->
 
-<div id="page-wrapper">
+ <div id="page-wrapper">
     <div class="container">
         <div class="row">
             <div id='main-content' class="col-md-12" style='padding-top:20px;'>
@@ -142,24 +159,6 @@ button.detail{
 
 </div><!--页面全局样式结束-->
 
-<!--js 部分-->
-    <script src="{% static 'dashboard/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'dashboard/jquery/jquery.cookie.js' %}"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'dashboard/bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'dashboard/chosen/chosen.jquery.min.js' %}"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="{% static 'dashboard/datatable/datatable.js' %}"></script>
-    <script src="{% static 'dashboard/metismenu/metismenu.min.js' %}"></script>
-    <script src="{% static 'dashboard/validform.js' %}"></script>
-    <script src="{% static 'dashboard/bootstrap-multiselect.js' %}"></script>
-    <script src="{% static 'dashboard/alert/sweet-alert.min.js' %}"></script>
-    <script src="{% static 'dashboard/parsley/parsley.min.js' %}"></script>
-    <script src="{% static 'dashboard/js/opsweb.js' %}"></script>
-    <script src="{% static 'dashboard/layui/layui.js' %}" charset="utf-8"></script>
-
-
     <script>
         function apply_menu(obj){
             obj.parent('li').addClass("active").parent('ul').addClass('in').attr("aria-expanded","true").siblings('a').attr("aria-expanded","true").parent("li").addClass("active")
@@ -167,20 +166,20 @@ button.detail{
 
         $(function(){
             $("#side-menu").metisMenu();
-            /*
+
             var current_menu_id = $.cookie('current_menu_id');
-            if (current_menu_id != "undefined"){
+           if (current_menu_id != "undefined"){
                 console.log(current_menu_id);
                 apply_menu($("#"+current_menu_id))
-            }
+          }
 
 
             $(".menu-link").click(function(){
-                console.log($(this).attr('id'))
+               console.log($(this).attr('id'))
                 $.cookie('current_menu_id', $(this).attr('id'));
                 swal("", "", "success")
             })
-            */
+
         })
     </script>
     {% block js %}
