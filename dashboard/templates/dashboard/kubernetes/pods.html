@@ -1,0 +1,52 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">容器组</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>状态</th>
+              <th>节点</th>
+              <th>已重启</th>
+              <th>创建时间</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+                <th>名称</th>
+                <th>状态</th>
+                <th>节点</th>
+                <th>已重启</th>
+                <th>创建时间</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for pod in pods %}
+            <tr>
+              <td>{{ pod.metadata.name }}</td>
+              <td>{{ pod.status.conditions.1.status }}</td>
+              <td>{{ pod.spec.template.spec.node_name }}</td>
+              <td>{{ pod.status.available_replicas }}</td>
+              <td>{{ pod.metadata.creation_timestamp }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+  {% endblock %}

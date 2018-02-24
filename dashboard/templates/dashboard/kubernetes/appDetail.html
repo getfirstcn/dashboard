@@ -1,0 +1,96 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">应用详细</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+   <div class="card">
+      <h5 class="card-header">详细</h5>
+      <div class="card-body">
+          <div class="row">
+              <div class='col-sm'>
+          <p class="card-text">名称：{{ metadata.name }}</p>
+        </div>
+          <div class='col-sm'>
+          <p class="card-text">类型：{{ kind }}</p>
+          </div>
+          <div class='col-sm'>
+          <p class="card-text">命名空间：{{ metadata.namespace }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-sm'>
+                <p class="card-text">标签：{{ metadata.labels }}</p>
+                </div>
+                <div class='col-sm'>
+                <p class="card-text">创建时间：{{ metadata.creation_timestamp }}</p>
+                </div>
+                <div class='col-sm'>
+                <p class="card-text">状态：{{ status.ready_replicas }}/{{ status.replicas }}</p>
+            </div>  
+        </div>
+        </div>
+      </div>
+<!-- ///////////////////////////////////////////////////////////////////////////// -->
+      <h5 class="card-header">容器组</h5>
+      <div class="card-body">
+          <div class='row'>
+              <div class="col-sm">
+              <p class="card-text">副本：{{ spec.replicas }}</p>
+               </div>
+              </div>
+              <div class='row'>
+                    <div class="col-sm">
+                    <p class="card-text">选择器：{{ spec.selector.match_labels }}</p>
+                    </div>
+                </div>
+        </div>
+
+      <h5 class="card-header">容器</h5>
+      <div class="card-body">
+          <div class='row'>
+                <b class="card-title">容器1</b>
+                </div>
+          <div class='row'>
+                <div class="col-sm">
+                        <p class="card-text">名称：{{ spec.template.spec.containers.0.name }}</p>
+                </div>
+                <div class="col-sm">
+                        <p class="card-text">镜像：{{ spec.template.spec.containers.0.image }}</p>
+
+                </div>
+                <div class="col-sm">
+                        <p class="card-text">镜像拉取策略：{{ spec.template.spec.containers.0.image_pull_policy }}</p>
+                </div>
+            </div>
+            <div class='row'>
+                    <div class="col-sm">
+                            <p class="card-text">服务端口：{{ spec.template.spec.containers.0.ports.0.container_port }}</p>
+    
+                    </div>
+                    <div class="col-sm">
+                            <p class="card-text">服务协议：{{ spec.template.spec.containers.0.ports.0.protocol }}</p>
+    
+                    </div>
+                    <div class="col-sm">
+                            <p class="card-text">dns策略：{{ spec.template.spec.dns_policy }}</p>
+    
+                    </div>
+                </div> 
+          </div>
+      </div>
+
+<div class="container">
+    <div class="row">
+        <a href="/deployments/">返回</a>
+    </div>
+</div>
+{% endblock %}

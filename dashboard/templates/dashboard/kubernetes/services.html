@@ -1,0 +1,54 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">服务</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-table"></i>服务</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>集群IP</th>
+              <th>内部地址</th>
+              <th>外部地址</th>
+              <th>创建时间</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+                <th>名称</th>
+                <th>集群IP</th>
+                <th>内部地址</th>
+                <th>外部地址</th>
+                <th>创建时间</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for service in services %}
+            <tr>
+              <td>{{ service.metadata.name }}</td>
+              <td>{{ service.spec.cluster_ip }}</td>
+              <td>{{ service.metadata.name }}:{{ service.spec.ports.0.port }}</td>
+              <td>{{ service.metadata.name }}:{{ service.spec.ports.0.node_port }}</td>
+              <td>{{ service.metadata.creation_timestamp }}</td> 
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+  {% endblock %}

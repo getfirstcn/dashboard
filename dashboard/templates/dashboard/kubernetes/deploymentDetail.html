@@ -1,0 +1,43 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">部署详细</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<h3>应用详细</h3>
+{{ applyInfo }}
+<div class="container">
+   <div class="row">
+      <div class="col-xs-6">
+          <b>应用名称：</b> <td>{{ deployName }}</td>
+      </div>
+      <div class="col-xs-6">
+        <b>命名空间：</b> <td>{{ namespace }}</td>
+    </div>
+      <div class="col-xs-6">
+          <b>创建时间：</b> <td>{{ createDate }}</td>
+      </div>
+      <div class="col-xs-6">
+          <b>状态：</b> <td>{{ deployStatus }}</td>
+      </div>
+      <div class="col-xs-6">
+          <b>访问地址：</b> <a href={{ accessAddress }}> {{ accessAddress }} </a>
+      </div>
+      <div class="col-xs-6">
+          <b>镜像名称：</b> <td>{{ imageName }}</td>
+      </div>
+   </div>
+</div>
+<div class="container">
+    <div class="row">
+        <a href="/deployments/">返回</a>
+    </div>
+</div>
+{% endblock %}

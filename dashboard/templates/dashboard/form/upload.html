@@ -1,0 +1,34 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">文件上传</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3 w-50">
+    <div class="card-header">
+            文件上传
+    </div>
+<div class="card-body">
+<form action="/upload/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="custom-file">
+        <label id="fileLable1" class="custom-file-label" for="uploadFile1">选择文件</label>
+        <input type="file" class="form-control-file" name="uploadFile1" id="uploadFile1" onchange="writeFileName()">
+        </div>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-success" type="submit" id="fileSubmit1">
+    
+    </div>
+</form>
+</div>
+</div>
+{% endblock %}

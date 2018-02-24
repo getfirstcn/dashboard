@@ -1,0 +1,150 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">部署</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-table"></i>
+    <button id="add-deployment" class="btn btn-dark btn-sm">增加部署</button>
+    <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">执行</button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <button id="changeDeploy" class="dropdown-item" type="button">修改</button>
+          <button class="dropdown-item" type="button">详细</button>
+          <button id="deleteDeploy" class="dropdown-item" type="button">删除</button>
+        </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th><input type="checkbox" aria-label="全选框">名称</th>
+              <th>命名空间</th>
+              <th>容器组</th>
+              <th>时间</th>
+              <th>镜像</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th><input type="checkbox" aria-label="全选框">名称</th>
+                <th>命名空间</th>
+                <th>容器组</th>
+                <th>时间</th>
+                <th>镜像</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for i in deployments %}
+            <tr>
+            <td><input type="checkbox" class="checkbox-single" value={{ i.metadata.name }} name={{ i.metadata.namespace }} data-port={{ i.spec.template.spec.containers.0.ports.0.container_port }} aria-label="单选框">
+              <a href="/deployment/detail/?name={{ i.metadata.name }}&namespace={{ i.metadata.namespace }}" target="_prarent">{{ i.metadata.name }}</a>
+            </td>
+            <td>{{ i.metadata.namespace }}</td>
+            <td>{{ i.status.ready_replicas }}/{{ i.status.replicas }}</td>
+            <td>{{ i.metadata.creation_timestamp }}</td>
+            <td>{{ i.spec.template.spec.containers.0.image }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">昨天在11:59 更新</div>
+  </div>
+  {% endblock %}
+  {% block form %}
+  <!-- 创建部署表单 -->
+      <div id="form-deployment" class="card card-form">
+        <div class="card-header">部署</div>
+        <div class="card-body">
+          <form id="deploymentForm1" action="/deployment/create/" method="post" autocomplete="on">
+            <div class="form-group">
+              <label for="selectProject1">项目：</label>
+              <select class="form-control" id="selectProject1" name="project" form="form-deployment">
+              {% for project in projects %}
+                <option> {{ project.name }} </option>
+              {% endfor %}
+              </select>
+              </div>
+            <div class="form-group">
+              <label for="images-1">镜像名称：</label> 
+               <input id="images-1" class="form-control" list="imagenames" name="imageName" placeholder="镜像名称" autocomplete="off">
+              <datalist id="imagenames">
+              </datalist>
+           </div>
+            <div class="form-group">
+              <label for="tag-1">版本：</label> 
+              <input id="tag-1" class="form-control" list="tag-list" name="imageTag" placeholder="镜像版本">
+              <datalist id="tag-list">
+          
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label class="app-1">应用名称：</label> 
+              <input id="app-1" class="form-control" type="text" name="applyName" placeholder="应用名称">
+            </div>
+
+            <div class="form-group">
+              <label for="servicePort1">服务端口：</label>  
+              <input id="servicePort1" class="form-control" type="number" name="servicePort" placeholder="服务端口" min="1" max="65535">
+            </div>
+            <div class="form-group"></div>
+              <input class="btn btn-success" form="deploymentForm1" type="submit" value="部署">
+              <input class="btn btn-primary" form="deploymentForm1" type="reset" value="重置">
+              <input id="deploymentFormCancel" class="btn btn-secondary" type="button" value="取消">
+            </div>
+          </form>
+        </div>
+      </div>
+<!-- 改变部署表单 -->
+      <div id="form-change-deployment" class="card card-form">
+          <div class="card-header">部署</div>
+          <div class="card-body">
+            <form id="changeDeploymentForm1" action="/deployment/change/" method="post" autocomplete="on">
+              <div class="form-group">
+                <label for="selectChangeProject1">项目：</label>
+                <input class="form-control" id="selectChangeProject1" name="project" form="form-change-deployment" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="change-app-1">应用名称：</label> 
+                    <input id="change-app-1" class="form-control" type="text" name="applyName" placeholder="应用名称" readonly="true" >
+                  </div>
+                <div class="form-group">
+                    <label class="change-namespace-1">命名空间：</label> 
+                    <input id="change-namespace-1" class="form-control" type="text" name="namespace" placeholder="命名空间" readonly="true"  style="dispaly:none">
+                  </div>
+              <div class="form-group">
+                <label for="change-images-1">镜像名称：</label> 
+                 <input id="change-images-1" class="form-control" list="change-imagenames" name="imageName" placeholder="镜像名称" autocomplete="off">
+                <datalist id="change-imagenames">
+                </datalist>
+             </div>
+              <div class="form-group">
+                <label for="change-tag-1">版本：</label> 
+                <input id="change-tag-1" class="form-control" list="change-tag-list" name="imageTag" placeholder="镜像版本">
+                <datalist id="change-tag-list">            
+                </datalist>
+              </div>
+              <div class="form-group">
+                  <label for="changeServicePort1">服务端口：</label>  
+                  <input id="changeServicePort1" class="form-control" type="number" name="servicePort" placeholder="服务端口" min="1" max="65535">
+                </div>
+              <div class="form-group"></div>
+                <input class="btn btn-success" form="changeDeploymentForm1" type="submit" value="确定">
+                <input class="btn btn-primary" form="changeDeploymentForm1" type="reset" value="重置">
+                <input id="changeDeploymentFormCancel" class="btn btn-secondary" type="button" value="取消">
+              </div>
+            </form>
+          </div>
+        </div>
+      {% endblock %}

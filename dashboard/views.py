@@ -1,56 +1,70 @@
 from django.shortcuts import render
-from django.views.generic import View
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import permission_required, login_required
-from django.http import HttpResponse, JsonResponse, QueryDict
-from django.contrib.auth import authenticate, login, logout
-from django.template import loader, RequestContext
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
-
-class IndexView(View):
-    #method_decorator 装饰器将函数装饰器转换成方法装饰器，这样它才可以用于实例方法上
-    @method_decorator(login_required( redirect_field_name='next', login_url='/login/'))
-    def get(self,request):
-        return render(request, 'dashboard/public/index.html')
-
-
-class LogIn(View):
-    def get(self, request):
-        return render(request, 'dashboard/login.html', {'title': 'rebbot 运维'})
-
-    #@method_decorator(login_required(redirect_field_name='next', login_url='/dashboard/'))
-    def post(self, request):
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-        print(username)
-        ret = {'status': 0}
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                ret['nexturl'] = '/dashboard/'
-            else:
-                ret['status'] = 2
-                ret['errmsg'] = 'err'
-                ret['username'] = username
-                print(ret)
-            return JsonResponse(ret, safe=True)
-class DefaultView(View):
-    def get(self, request):
-        return HttpResponse('default')
-
-class LogOut(View):
-    @method_decorator(login_required(redirect_field_name='next', login_url='/login/'))
-    def get(self, request):
-        logout(request)
-        return HttpResponse('账户退出成功')
-
-def permit(request):
-    return render(request, 'dashboard/public/permit.html')
-
-def layout(request):
-    return render(request, 'dashboard/kubernetes/addDeployment.html')
-
-
+from django import forms
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from kubernetes import client, config
+from . import repositories
 
 # Create your views here.
+
+def index(request):
+    return render(request, 'dashboard/index.html')
+
+def login(request):
+    return render(request, 'dashboard/login.html')
+
+def monitor(request):
+    return render(request, 'dashboard/kubernetes/monitor.html')
+
+def pods_list(request):
+    config.load_kube_config()
+    k8s_api = client.CoreV1Api()
+    pods = k8s_api.list_pod_for_all_namespaces(watch=False).items
+    print(pods)
+    return render(request, 'dashboard/kubernetes/pods.html', {"pods":pods})
+
+
+
+    return render(request, 'dashboard/kubernetes/pods.html')
+
+def deployments_list(request):
+    config.load_kube_config()
+    k8s_api = client.AppsV1beta2Api()
+    deployments= k8s_api.list_deployment_for_all_namespaces().items
+    return render(request, 'dashboard/kubernetes/deployments.html',{"deployments":deployments})
+
+def services_list(request):
+    config.load_kube_config()
+    k8s_api = client.CoreV1Api()
+    services = k8s_api.list_service_for_all_namespaces(watch=False).items
+    print(services)
+    return render(request, 'dashboard/kubernetes/services.html',{"services":services})
+
+def links_list(request):
+    return render(request, 'dashboard/kubernetes/links.html')
+
+def deployment_form(request):
+    return render(request, 'dashboard/form/deploymentForm.html')
+def upload(request):
+    if request.method == 'GET':
+        return render(request, 'dashboard/form/upload.html')
+    if request.method == 'POST':
+        # form = uploadFileForm(request.POST, request.FILES)
+        # if form.is_valid():
+        # print(dir(request.FILES))       
+        # print(request.FILES,'dddddddddddddddddd')
+        handle_upload_file(request.FILES['uploadFile1'])
+        return HttpResponse("<h1>上传成功</h1>")
+    else:
+        return HttpResponse("<h1>上传不成功</h1>")
+
+class uploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
+
+def handle_upload_file(f):
+    with open('name.png', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+
