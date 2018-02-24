@@ -5,7 +5,7 @@
 <form id="add-deploy-table-1" action="/dashboard/deployment/" method="post" autocomplete="on">
 
     项目名称：
-    <select id="project-1" name="project" form="add-deploy-table-1" required>
+    <select id="project-1" name="project" form="add-deploy-table-1"required>
               {% for project in projects %}
 
         <option> {{ project.name }} </option>
