@@ -1,0 +1,58 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">配置</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+{#    <div class="card-header">#}
+{#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>命名空间</th>
+              <th>创建时间</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+                <th>名称</th>
+                <th>命名空间</th>
+                <th>创建时间</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for configmap in configmaps %}
+            <tr>
+              <td><a href="/configmap/detail?name={{ configmap.metadata.name }}&namespace={{ configmap.metadata.namespace }}">{{ configmap.metadata.name }}</a></td>
+              <td>{{ configmap.metadata.namespace }}</td>
+              <td>
+                  <div class="dropdown">
+                      {{ configmap.metadata.creation_timestamp|date:"Y-m-d H:i:s"  }}
+                    <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                      <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button data-name="{{ configmap.namespace.metadata.name }}"  class="dropdown-item namespace-delete-dropdown1">删除</button>
+                      </li>
+                        </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
+  </div>
+ {% endblock %}

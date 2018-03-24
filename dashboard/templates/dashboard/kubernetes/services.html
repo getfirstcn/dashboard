@@ -4,7 +4,7 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="">控制台</a>
+            <a href="/">控制台</a>
           </li>
           <li class="breadcrumb-item active">服务</li>
         </ol>
@@ -12,15 +12,15 @@
 {% endblock %}
 {% block content %}
 <div class="card mb-3">
-    <div class="card-header">
-      <i class="fa fa-table"></i>服务</div>
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>名称</th>
-              <th>集群IP</th>
+              <th><input type="checkbox">名称</th>
+              <th>命名空间</th>
+              <th>类型</th>
+              <th>IP</th>
               <th>内部地址</th>
               <th>外部地址</th>
               <th>创建时间</th>
@@ -28,8 +28,10 @@
           </thead>
           <tfoot>
             <tr>
-                <th>名称</th>
-                <th>集群IP</th>
+                <th><input type="checkbox"> 名称</th>
+                <th>命名空间</th>
+                <th>类型</th>
+                <th>IP</th>
                 <th>内部地址</th>
                 <th>外部地址</th>
                 <th>创建时间</th>
@@ -38,17 +40,57 @@
           <tbody>
             {% for service in services %}
             <tr>
-              <td>{{ service.metadata.name }}</td>
+              <td><input type="checkbox"><a href="/service/detail/?name={{ service.metadata.name }}&namespace={{ service.metadata.namespace }}">{{ service.metadata.name }}</a></td>
+              <td>{{ service.metadata.namespace }}</td>
+              <td>{{ service.spec.type }}</td>
               <td>{{ service.spec.cluster_ip }}</td>
               <td>{{ service.metadata.name }}:{{ service.spec.ports.0.port }}</td>
-              <td>{{ service.metadata.name }}:{{ service.spec.ports.0.node_port }}</td>
-              <td>{{ service.metadata.creation_timestamp }}</td> 
+                {% if service.spec.ports.0.node_port %}
+              <td><a href="http://192.168.137.50:{{ service.spec.ports.0.node_port }}">http://192.168.137.50:{{ service.spec.ports.0.node_port }}</a></td>
+                {% else %}
+                <td> </td>
+                {% endif %}
+              <td>
+                  <div class="dropdown">
+                  {{ service.metadata.creation_timestamp|date:"Y-m-d H:i:s" }}
+                   <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                      <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button data-name="{{ service.metadata.name }}" data-namespace="{{ service.metadata.namespace}}" class="dropdown-item" data-toggle="modal" data-target="#service-editor-modal" onclick="modify_service(this)">修改</button>
+                            <button data-name="{{ service.metadata.name }}" data-namespace="{{ service.metadata.namespace}}" class="dropdown-item service-delete-dropdown1" onclick="service_delete(this)">删除</button>
+                      </li>
+                </div>
+            </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
-    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
   </div>
+{# 修改服务会话框   #}
+   <div class="modal fade" id="service-editor-modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- 模态框头部 -->
+        <div class="modal-header">
+          <h4 id="modify-service-title" class="modal-title">修改服务</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- 模态框主体 -->
+        <div class="modal-body">
+        <div id="service-editor" class="service-editor"></div>
+        </div>
+
+        <!-- 模态框底部 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button id="update-service-btn" type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+        </div>
+      </div>
+    </div>
+   </div>
   {% endblock %}

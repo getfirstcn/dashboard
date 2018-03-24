@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>类型</th>
+        <th>原因</th>
+        <th>时间</th>
+        <th>源主机</th>
+        <th>组件</th>
+        <th>内容</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for event in events %}
+      <tr>
+        <td>{{ event.type }}</td>
+        <td>{{ event.reason }}</td>
+        <td>{{ event.last_timestamp|date:"Y-m-d H:i:s" }}</td>
+        <td>{{ event.source.host }}</td>
+        <td>{{ event.source.component }}</td>
+        <td>{{ event.message }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

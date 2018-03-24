@@ -6,7 +6,10 @@
           <li class="breadcrumb-item">
             <a href="/">控制台</a>
           </li>
-          <li class="breadcrumb-item active">应用详细</li>
+            <li class="breadcrumb-item">
+            <a href="/deployments/">部署</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">应用详细</li>
         </ol>
 </div>
 {% endblock %}
@@ -17,80 +20,85 @@
       <div class="card-body">
           <div class="row">
               <div class='col-sm'>
-          <p class="card-text">名称：{{ metadata.name }}</p>
+          <p class="card-text">名称：{{ deployment.metadata.name }}</p>
         </div>
-          <div class='col-sm'>
-          <p class="card-text">类型：{{ kind }}</p>
           </div>
+      <div class="row">
           <div class='col-sm'>
-          <p class="card-text">命名空间：{{ metadata.namespace }}</p>
+          <p class="card-text">类型：{{ deployment.kind }}</p>
+          </div>
+      </div>
+      <div class="row">
+          <div class='col-sm'>
+          <p class="card-text">命名空间：{{ deployment.metadata.namespace }}</p>
             </div>
         </div>
         <div class="row">
             <div class='col-sm'>
-                <p class="card-text">标签：{{ metadata.labels }}</p>
+                <p class="card-text">标签：
+                    {% for key, value in deployment.metadata.labels.items %}
+                     {{ key }}:{{ value }}&nbsp
+                    {% endfor %}
+                </p>
                 </div>
+        </div>
+            <div class="row">
                 <div class='col-sm'>
-                <p class="card-text">创建时间：{{ metadata.creation_timestamp }}</p>
+                <p class="card-text">创建时间：{{ deployment.metadata.creation_timestamp|date:"Y-m-d H:i:s" }}</p>
                 </div>
+            </div>
+            <div class="row">
                 <div class='col-sm'>
-                <p class="card-text">状态：{{ status.ready_replicas }}/{{ status.replicas }}</p>
+                <p class="card-text">状态：{{ deployment.status.ready_replicas }}/{{ deployment.status.replicas }}</p>
             </div>  
         </div>
         </div>
-      </div>
 <!-- ///////////////////////////////////////////////////////////////////////////// -->
       <h5 class="card-header">容器组</h5>
       <div class="card-body">
-          <div class='row'>
-              <div class="col-sm">
-              <p class="card-text">副本：{{ spec.replicas }}</p>
-               </div>
-              </div>
-              <div class='row'>
-                    <div class="col-sm">
-                    <p class="card-text">选择器：{{ spec.selector.match_labels }}</p>
-                    </div>
-                </div>
-        </div>
-
-      <h5 class="card-header">容器</h5>
-      <div class="card-body">
-          <div class='row'>
-                <b class="card-title">容器1</b>
-                </div>
-          <div class='row'>
-                <div class="col-sm">
-                        <p class="card-text">名称：{{ spec.template.spec.containers.0.name }}</p>
-                </div>
-                <div class="col-sm">
-                        <p class="card-text">镜像：{{ spec.template.spec.containers.0.image }}</p>
-
-                </div>
-                <div class="col-sm">
-                        <p class="card-text">镜像拉取策略：{{ spec.template.spec.containers.0.image_pull_policy }}</p>
-                </div>
-            </div>
-            <div class='row'>
-                    <div class="col-sm">
-                            <p class="card-text">服务端口：{{ spec.template.spec.containers.0.ports.0.container_port }}</p>
-    
-                    </div>
-                    <div class="col-sm">
-                            <p class="card-text">服务协议：{{ spec.template.spec.containers.0.ports.0.protocol }}</p>
-    
-                    </div>
-                    <div class="col-sm">
-                            <p class="card-text">dns策略：{{ spec.template.spec.dns_policy }}</p>
-    
-                    </div>
-                </div> 
-          </div>
+        <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th><input type="checkbox"> 名称</th>
+              <th>命名空间</th>
+              <th>主机</th>
+              <th>IP</th>
+              <th>就绪</th>
+              <th>状态</th>
+              <th>重启次数</th>
+              <th>开始时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pod in podlist %}
+            <tr>
+              <td><input type="checkbox" data-name={{ pod.metadata.name }}><a href="/pod/detail?name={{ pod.metadata.name }}&namespace={{ pod.metadata.namespace }}">{{ pod.metadata.name }}</a></td>
+              <td>{{ pod.metadata.namespace}}</td>
+              <td>{{ pod.status.host_ip }}</td>
+              <td>{{ pod.status.pod_ip }}</td>
+                {% with num=1 %}
+              <td>{{ num }}/{{ pod.status.container_statuses|length }}</td>
+              {% endwith %}
+                <td>{{ pod.status.phase }}</td>
+              <td>{{ pod.status.container_statuses.0.restart_count }}</td>
+              <td>
+                  <div class="dropdown">
+                      {{ pod.status.start_time|date:"Y-m-d H:i:s"  }}
+                    <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                      <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button data-name="{{ pod.metadata.name }}" data-namespace="{{ pod.metadata.namespace}}" class="dropdown-item">查看日志</button>
+                            <button data-name="{{ pod.metadata.name }}" data-namespace="{{ pod.metadata.namespace}}" class="dropdown-item pod-delete-dropdown1">删除</button>
+                      </li>
+                        </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-
-<div class="container">
-    <div class="row">
-        <a href="/deployments/">返回</a>
-    </div>
+      </div>
+   </div>
 </div>
 {% endblock %}

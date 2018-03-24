@@ -1,0 +1,49 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+            <li class="breadcrumb-item">
+            <a href="/namespaces/">命名空间</a>
+          </li>
+          <li class="breadcrumb-item active">空间详细</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+   <div class="card">
+      <h5 class="card-header">详细</h5>
+      <div class="card-body">
+          <div class="row">
+              <div class='col-sm'>
+          <p class="card-text">名称：{{ namespace.metadata.name }}</p>
+        </div>
+          </div>
+          <div class="row">
+          <div class='col-sm'>
+          <p class="card-text">类型：{{ namespace.kind }}</p>
+            </div>
+          </div>
+          <div class="row">
+          <div class='col-sm'>
+                <p class="card-text">标签：
+                    {% for key, value in namespace.metadata.labels.items %}
+                    {{ key }}:{{ value }}
+                    {% endfor %}
+                </p>
+          </div>
+        </div>
+        <div class="row">
+                <div class='col-sm'>
+                <p class="card-text">创建时间：{{ namespace.metadata.creation_timestamp|date:"Y-m-d H:i:s" }}</p>
+                </div>
+            </div>
+        </div>
+<!-- ///////////////////////////////////////////////////////////////////////////// -->
+      </div>
+</div>
+{% endblock %}

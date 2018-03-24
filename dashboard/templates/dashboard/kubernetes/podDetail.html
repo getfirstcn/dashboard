@@ -1,0 +1,84 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+            <li class="breadcrumb-item">
+            <a href="/pods/">容器组</a>
+          </li>
+          <li class="breadcrumb-item active">容器详细</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+   <div class="card">
+      <h5 class="card-header">详细</h5>
+      <div class="card-body">
+          <div class="row">
+              <div class='col-sm'>
+          <p class="card-text">名称：{{ metadata.name }}</p>
+        </div>
+          </div>
+          <div class="row">
+          <div class='col-sm'>
+          <p class="card-text">命名空间：{{ metadata.namespace }}</p>
+            </div>
+          </div>
+          <div class="row">
+          <div class='col-sm'>
+                <p class="card-text">标签：
+                    {% for key, value in metadata.labels.items %}
+                    {{ key }}:{{ value }}
+                    {% endfor %}
+                </p>
+          </div>
+        </div>
+        <div class="row">
+                <div class='col-sm'>
+                <p class="card-text">创建时间：{{ metadata.creation_timestamp|date:"Y-m-d H:i:s" }}</p>
+                </div>
+            </div>
+        </div>
+<!-- ///////////////////////////////////////////////////////////////////////////// -->
+      <h5 class="card-header">容器</h5>
+      <div class="card-body">
+          <div class='row'>
+              {% for container in spec.containers %}
+                <div class="col-sm">
+                        <b class="card-title">{{ container.name }}</b>
+                        <p class="card-text">镜像：{{ container.image }}</p>
+                        <p class="card-text">镜像拉取策略：{{ container.image_pull_policy }}</p>
+                        <p class="card-text">生命周期：{{ container.lifecycle }}</p>
+                        <p class="card-text">命令：
+                            {% for comm in container.command  %}
+                                {{ comm }}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {% endfor %}
+                        </p>
+
+                        <p class="card-text">参数：
+                  {% for arg in container.args %}
+                          {{ arg }}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endfor %}
+                        </p>
+
+                        <p class="card-text">环境变量：{{ container.env }}</p>
+                        <p class="card-text">文件变量：{{ container.env_from }}</p>
+                       <p class="card-text">主机：{{ container.ports.0.host_ip }}</p>
+                       <p class="card-text">容器端口：{{ container.ports.0.container_port }}</p>
+                        <p class="card-text">主机端口：{{ container.ports.0.host_port }}</p>
+                        <p class="card-text">协议：{{ container.ports.0.protocol }}</p>
+                        <p class="card-text">卷名称：{{ container.volume_mounts.0.name }}</p>
+                       <p class="card-text">挂载路径：{{ container.volume_mounts.0.mount_path }}</p>
+                            <p class="card-text">子路径：{{ container.volume_mounts.0.sub_path }}</p>
+                            <p class="card-text">只读：{{ container.volume_mounts.0.read_only }}</p>
+                    </div>
+                  {% endfor %}
+                </div>
+          </div>
+      </div>
+</div>
+{% endblock %}

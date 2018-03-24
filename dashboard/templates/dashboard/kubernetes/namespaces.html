@@ -1,0 +1,65 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">命名空间</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+{#    <div class="card-header">#}
+{#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>标签</th>
+              <th>状态</th>
+              <th>时间</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+                <th>名称</th>
+                <th>标签</th>
+                <th>状态</th>
+                <th>时间</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for namespace in namespaces %}
+            <tr>
+              <td><a href="/namespace/detail?name={{ namespace.metadata.name }}">{{ namespace.metadata.name }}</a></td>
+                {% if namespace.metadata.labels %}
+              <td>{{ namespace.metadata.labels}}</td>
+                {% else %}
+                    <td>无</td>
+                {% endif %}
+              <td>{{ namespace.status.phase }}</td>
+              <td>
+                  <div class="dropdown">
+                      {{ namespace.metadata.creation_timestamp|date:"Y-m-d H:i:s"  }}
+                    <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                      <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button data-name="{{ namespace.metadata.name }}"  class="dropdown-item namespace-delete-dropdown1">删除</button>
+                      </li>
+                        </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
+  </div>
+ {% endblock %}

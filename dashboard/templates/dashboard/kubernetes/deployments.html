@@ -6,22 +6,22 @@
           <li class="breadcrumb-item">
             <a href="#">控制台</a>
           </li>
-          <li class="breadcrumb-item active">部署</li>
+          <li class="breadcrumb-item active" aria-current="page">部署</li>
         </ol>
 </div>
 {% endblock %}
 {% block content %}
 <div class="card mb-3">
-    <div class="card-header">
-      <i class="fa fa-table"></i>
-    <button id="add-deployment" class="btn btn-dark btn-sm">增加部署</button>
-    <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">执行</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-          <button id="changeDeploy" class="dropdown-item" type="button">修改</button>
-          <button class="dropdown-item" type="button">详细</button>
-          <button id="deleteDeploy" class="dropdown-item" type="button">删除</button>
-        </div>
-    </div>
+{#    <div class="card-header">#}
+{#      <i class="fa fa-table"></i>#}
+{#    <button id="add-deployment" class="btn btn-dark btn-sm">增加部署</button>#}
+{#    <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">执行</button>#}
+{#        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">#}
+{#          <button id="changeDeploy" class="dropdown-item" type="button">修改</button>#}
+{#          <button class="dropdown-item" type="button">详细</button>#}
+{#          <button id="deleteDeploy" class="dropdown-item" type="button">删除</button>#}
+{#        </div>#}
+{#    </div>#}
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -29,18 +29,20 @@
             <tr>
               <th><input type="checkbox" aria-label="全选框">名称</th>
               <th>命名空间</th>
-              <th>容器组</th>
-              <th>时间</th>
+              <th>复制</th>
+              <th>状态</th>
               <th>镜像</th>
+              <th>时间</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th><input type="checkbox" aria-label="全选框">名称</th>
                 <th>命名空间</th>
-                <th>容器组</th>
-                <th>时间</th>
+                <th>复制</th>
+                <th>状态</th>
                 <th>镜像</th>
+                <th>时间</th>
             </tr>
           </tfoot>
           <tbody>
@@ -50,17 +52,53 @@
               <a href="/deployment/detail/?name={{ i.metadata.name }}&namespace={{ i.metadata.namespace }}" target="_prarent">{{ i.metadata.name }}</a>
             </td>
             <td>{{ i.metadata.namespace }}</td>
-            <td>{{ i.status.ready_replicas }}/{{ i.status.replicas }}</td>
-            <td>{{ i.metadata.creation_timestamp }}</td>
+            <td>{{ i.status.replicas }}</td>
+            <td>{{ i.status.ready_replicas }}/{{ i.spec.replicas }}</td>
             <td>{{ i.spec.template.spec.containers.0.image }}</td>
+             <td>
+                  <div class="dropdown">
+                      {{ i.metadata.creation_timestamp|date:"Y-m-d H:i:s"  }}
+                    <button class="dropdown-more ion-android-more-vertical" align="right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                      <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button data-name="{{ i.metadata.name }}" data-namespace="{{ i.metadata.namespace}}" class="dropdown-item" data-toggle="modal" data-target="#deployment-editor-modal" onclick="modify_deployment(this)">修改</button>
+                            <button data-name="{{ i.metadata.name }}" data-namespace="{{ i.metadata.namespace}}" class="dropdown-item deploy-delete-dropdown1" onclick="deployment_delete(this)">删除</button>
+                      </li>
+                  </div>
+              </td>
+
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
-    <div class="card-footer small text-muted">昨天在11:59 更新</div>
+    <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
   </div>
+  {# 修改部署会话框   #}
+   <div class="modal fade" id="deployment-editor-modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- 模态框头部 -->
+        <div class="modal-header">
+          <h4 id="modify-deployment-title" class="modal-title">修改部署</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- 模态框主体 -->
+        <div class="modal-body">
+        <div id="deployment-editor" class="deployment-editor"></div>
+        </div>
+
+        <!-- 模态框底部 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button id="update-deployment-btn" type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+        </div>
+      </div>
+    </div>
+   </div>
   {% endblock %}
   {% block form %}
   <!-- 创建部署表单 -->
@@ -98,7 +136,7 @@
               <label for="servicePort1">服务端口：</label>  
               <input id="servicePort1" class="form-control" type="number" name="servicePort" placeholder="服务端口" min="1" max="65535">
             </div>
-            <div class="form-group"></div>
+            <div class="form-group">
               <input class="btn btn-success" form="deploymentForm1" type="submit" value="部署">
               <input class="btn btn-primary" form="deploymentForm1" type="reset" value="重置">
               <input id="deploymentFormCancel" class="btn btn-secondary" type="button" value="取消">
@@ -139,7 +177,7 @@
                   <label for="changeServicePort1">服务端口：</label>  
                   <input id="changeServicePort1" class="form-control" type="number" name="servicePort" placeholder="服务端口" min="1" max="65535">
                 </div>
-              <div class="form-group"></div>
+              <div class="form-group">
                 <input class="btn btn-success" form="changeDeploymentForm1" type="submit" value="确定">
                 <input class="btn btn-primary" form="changeDeploymentForm1" type="reset" value="重置">
                 <input id="changeDeploymentFormCancel" class="btn btn-secondary" type="button" value="取消">

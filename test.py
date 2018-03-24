@@ -1,0 +1,22 @@
+# num=0
+# y=0
+# n=0
+# while num < 10:
+#     num+=1
+#     age=input('请输入你的年龄：')
+#     print('你的年龄是',age)
+#     sex=input('请输入你的性别（男，女）：')
+#     print('你的性别是',sex)
+#     if 10 <= int(age) and int(age) <= 12 and sex == '女':
+#         print('恭喜，你可以加入球队')
+#         y+=1
+#     else:
+#         print('你不适合')
+#         n+=1
+# print('%d人可以加入球队，%d人不符合条件' % (y,n))
+from pprint import pprint
+
+test={"kind":"Pod","apiVersion":"v1","metadata":{"name":"test-describe-6b847c56b4-7ns96","generateName":"test-describe-6b847c56b4-","namespace":"default","selfLink":"/api/v1/namespaces/default/pods/test-describe-6b847c56b4-7ns96","uid":"71ab49e1-2cb6-11e8-b2f3-00155d01e300","resourceVersion":"3171599","creationTimestamp":"2018-03-21T03:17:53Z","labels":{"app":"describe","pod-template-hash":"2640371260"},"ownerReferences":[{"apiVersion":"extensions/v1beta1","kind":"ReplicaSet","name":"test-describe-6b847c56b4","uid":"719d5d71-2cb6-11e8-b2f3-00155d01e300","controller":True,"blockOwnerDeletion":True}]},"spec":{"volumes":[{"name":"default-token-mv624","secret":{"secretName":"default-token-mv624","defaultMode":420}}],"containers":[{"name":"test-describe","image":"describe:1.0","ports":[{"containerPort":80,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"default-token-mv624","readOnly":True,"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","serviceAccountName":"default","serviceAccount":"default","nodeName":"kube-master","securityContext":{},"schedulerName":"default-scheduler","tolerations":[{"key":"node.kubernetes.io/not-ready","operator":"Exists","effect":"NoExecute","tolerationSeconds":300},{"key":"node.kubernetes.io/unreachable","operator":"Exists","effect":"NoExecute","tolerationSeconds":300}]},
+      "status":{"phase":"Pending","conditions":[{"type":"Initialized","status":"True","lastProbeTime":None,"lastTransitionTime":"2018-03-21T03:17:53Z"},
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          {"type":"Ready","status":"False","lastProbeTime":None,"lastTransitionTime":"2018-03-21T03:17:53Z","reason":"ContainersNotReady","message":"containers with unready status: [test-describe]"},{"type":"PodScheduled","status":"True","lastProbeTime":None,"lastTransitionTime":"2018-03-21T03:17:53Z"}],"hostIP":"192.168.137.50","podIP":"172.17.0.2","startTime":"2018-03-21T03:17:53Z","containerStatuses":[{"name":"test-describe","state":{"waiting":{"reason":"ImagePullBackOff","message":"Back-off pulling image \"describe:1.0\""}},"lastState":{},"ready":False,"restartCount":0,"image":"describe:1.0","imageID":""}],"qosClass":"BestEffort"}}
+pprint(test)

@@ -17,6 +17,10 @@
   <link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.css'%}" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="{% static 'dashboard/css/sb-admin.css'%}" rel="stylesheet">
+  <link href="{% static 'dashboard/css/dashboard.css'%}" rel="stylesheet">
+  <link href="{% static 'dashboard/vendor/ionicons/css/ionicons.min.css'%}" rel="stylesheet" type="text/css">
+{#  <link href="{% static 'dashboard/vendor/bootstrap-material-design-4.5.0/css/mdb.min.css'%}" rel="stylesheet" type="text/css">#}
+
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -40,6 +44,79 @@
             <span class="nav-link-text">监控</span>
           </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">集群</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMulti">
+            <li>
+              <a href="/namespaces/">命名空间</a>
+            </li>
+            <li>
+              <a href="/nodes/">节点</a>
+            </li>
+{#            <li>#}
+{#              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>#}
+{#              <ul class="sidenav-third-level collapse" id="collapseMulti2">#}
+{#                <li>#}
+{#                  <a href="#">Third Level Item</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#">Third Level Item</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                  <a href="#">Third Level Item</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </li>#}
+          </ul>
+
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="resource Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">资源</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="/configmaps/">配置</a>
+            </li>
+            <li>
+              <a href="/secrets/">秘密</a>
+            </li>
+            <li>
+              <a href="persistentvolumes/">持久卷</a>
+            </li>
+             <li>
+              <a href="/roles/">角色</a>
+            </li>
+            <li>
+              <a href="/serviceaccounts/">服务账户</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="ingress">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#ingressAddressPages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">入口</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="ingressAddressPages">
+            <li>
+              <a href="/ingresses/">入口</a>
+            </li>
+            <li>
+              <a href="/endpoints/">端点</a>
+            </li>
+          </ul>
+        </li>
+
+        </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="/applications">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">应用</span>
+          </a>
+        </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="/deployments">
             <i class="fa fa-fw fa-table"></i>
@@ -58,77 +135,26 @@
             <span class="nav-link-text">服务</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-wrench"></i>
-            <span class="nav-link-text">组件</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseComponents">
-            <li>
-              <a href="navbar.html">导航栏</a>
-            </li>
-            <li>
-              <a href="cards.html">Cards</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-file"></i>
-            <span class="nav-link-text">配置</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-            <li>
-              <a href="login.html">Login Page</a>
-            </li>
-            <li>
-              <a href="register.html">Registration Page</a>
-            </li>
-            <li>
-              <a href="forgot-password.html">Forgot Password Page</a>
-            </li>
-            <li>
-              <a href="/upload">上传文件</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-sitemap"></i>
-            <span class="nav-link-text">集群</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseMulti">
-            <li>
-              <a href="#">命名空间</a>
-            </li>
-            <li>
-              <a href="#">节点</a>
-            </li>
-            <li>
-              <a href="#">角色</a>
-            </li>
-            <li>
-              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-              <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-          <a class="nav-link" href="/links">
-            <i class="fa fa-fw fa-link"></i>
-            <span class="nav-link-text">服务地址</span>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="/events">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">事件</span>
           </a>
         </li>
+{#        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">#}
+{#          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">#}
+{#            <i class="fa fa-fw fa-wrench"></i>#}
+{#            <span class="nav-link-text">组件</span>#}
+{#          </a>#}
+{#          <ul class="sidenav-second-level collapse" id="collapseComponents">#}
+{#            <li>#}
+{#              <a href="navbar.html">导航栏</a>#}
+{#            </li>#}
+{#            <li>#}
+{#              <a href="cards.html">Cards</a>#}
+{#            </li>#}
+{#          </ul>#}
+{#        </li>#}
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
@@ -179,40 +205,24 @@
               <span class="badge badge-pill badge-warning">6 New</span>
             </span>
             <span class="indicator text-warning d-none d-lg-block">
-              <i class="fa fa-fw fa-circle"></i>
+              <i id="events-count" class="fa fa-fw fa-circle">0</i>
             </span>
           </a>
-          <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+          <div id="namespace-all-events" class="dropdown-menu" aria-labelledby="alertsDropdown">
+              {% block events %}
             <h6 class="dropdown-header">新告警:</h6>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">
               <span class="text-success">
                 <strong>
-                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Normal</strong>
               </span>
-              <span class="small float-right text-muted">11:21 AM</span>
-              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <span class="text-danger">
-                <strong>
-                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
-              </span>
-              <span class="small float-right text-muted">11:21 AM</span>
-              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <span class="text-success">
-                <strong>
-                  <i class="fa fa-long-arrow-up fa-fw"></i>更新状态</strong>
-              </span>
-              <span class="small float-right text-muted">11:21 AM</span>
+              <span class="small float-right text-muted">AM</span>
               <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item small" href="#">查看所有通知</a>
+              {% endblock %}
           </div>
         </li>
         <li class="nav-item">
@@ -250,11 +260,13 @@
       {% block content %}
       <h1>主要内容</h1>
       {% endblock %}
-      
+{#   部署表单   #}
       {% block form %}
     {% endblock %}
+{#  创建部署按钮#}
+  {% include 'dashboard/kubernetes/buttonAddApps.html' %}
     <footer class="sticky-footer">
-      <div class="container">
+      <div class="container-fluid">
         <div class="text-center">
           <small>版权所有©合时代</small>
         </div>
@@ -277,7 +289,7 @@
           <div class="modal-body">如果您准备结束当前会话, 请选择下面的 "注销".</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
-            <a class="btn btn-primary" href="login.html">退出</a>
+            <a class="btn btn-primary" href="/logout/">退出</a>
           </div>
         </div>
       </div>
@@ -296,7 +308,11 @@
     <!-- Custom scripts for this page-->
     <script src="{% static 'dashboard/js/sb-admin-datatables.min.js'%}"></script>
     <script src="{% static 'dashboard/js/sb-admin-charts.min.js'%}"></script>
+    <script src="{% static 'dashboard/vendor/bootstrap-material-design-4.5.0/js/mdb.min.js'%}"></script>
+    <script src="{% static 'dashboard/vendor/monaco-editor-0.11.1/package/min/vs/loader.js'%}"></script>
     <script src="{% static 'dashboard/js/dashboard.js'%}"></script>
+    <script src="{% static 'dashboard/js/editor.js'%}"></script>
+{#    <script src="{% static 'dashboard/vendor/CKEditor5/ckeditor.js'%}"></script>#}
     {% csrf_token %}
     <script type="text/javascript">
 // using jQuery
@@ -304,5 +320,4 @@
 </script>
   </div>
 </body>
-
 </html>

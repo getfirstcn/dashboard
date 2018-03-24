@@ -1,0 +1,202 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+            <li class="breadcrumb-item">
+            <a href="/app/">应用</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">创建应用</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+    <form id="form-app-add" action="/app/add/" method="post" autocomplete="on">
+<div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">应用</label>
+      <input name="app" class="form-control  form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">应用名称会做为标签添加到部署和部署的服务上,应用名称会做为标签添加到部署和部署的服务上,应用名称会做为标签添加到部署和部署的服务上</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+        <div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">镜像名称</label>
+      <input name="image" class="form-control form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">填入公司镜像仓库里的镜像名称，会自动匹配</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+                <div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">容器组个数</label>
+      <input name="rc" class="form-control form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">指定容器组的副本数据，集群将创建</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label">服务</label>
+  </div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">定义一个内部或者外部访问的端口</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-2">
+  <div id="service-group-port" class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">端口</label>
+      <input name="servicePort" class="form-control form-control-text" type="int">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-2">
+        <div id="service-group-target-port" class="form-group label-floating is-empty">
+            <label class="control-label text-mv-top">目标端口</label>
+            <input name="targetPort" class="form-control form-control-text" type="int">
+            <span class="material-input"></span></div>
+    </div>
+        <div class="col-md-3">
+        <div id="service-group-protocol" class="form-group label-floating is-empty">
+            <label id="service-protocal-label-1" class="control-label text-mv-top">协议</label>
+            <div class="input-group">
+            <input id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text" type="text">
+                <div class="input-group-append">
+            <span id="plus-service-input" class="ion-ios-plus-empty ion-plus-btn"></span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-6"></div>
+</div>
+
+        <div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">描述</label>
+      <input name="description" class="form-control form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">描述信息将以注解的形式加入到部署之中，可以配合应用配置</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-1">
+       <label class="control-label">标签：</label>
+    </div>
+  <div class="col-md-3">
+  <div id="lable-key" class="form-group label-floating is-empty">
+      <label class="control-label text-mv-top">键</label>
+      <input name="labelKey" class="form-control form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+  <div class="col-md-3">
+  <div id="lable-value" class="form-group label-floating is-empty">
+      <label id="lable-value-text-1" class="control-label text-mv-top">值</label>
+      <div class="input-group">
+      <input id="lable-value-input-0" name="labelValue" class="form-control form-control-text" type="text">
+          <div class="input-group-append">
+      <span id="plus-lable-input" class="material-input ion-ios-plus-empty ion-plus-btn"></span>
+          </div>
+          </div>
+      </div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">指定标签应用于创建的部署</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+
+<div class="row">
+       <label class="control-label">环境变量：</label>
+    </div>
+<div class="row">
+  <div class="col-md-3">
+  <div id="env-group-key" class="form-group label-floating is-empty">
+      <input id="envKey" name="envKey" class="form-control form-control-text" placeholder="名称" type="text">
+  </div>
+  </div>
+    <div class="col-md-4">
+        <div id="env-group-value" class="form-group label-floating is-empty">
+            <div class="input-group">
+      <input name="envValue" class="form-control form-control-text" placeholder="值" type="text">
+                <div class="input-group-prepend">
+          <span id="plus-env-intput" class="ion-ios-plus-empty ion-plus-btn" onclick="addInputENV()"></span>
+                    </div>
+                </div>
+        </div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label">可供容器使用的环境变量</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">运行命令</label>
+      <input name="command" class="form-control form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <label class="control-label text-mv-top">使用命令重写默认容器启动程序
+</label>
+            <span class="material-input"></span></div>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+  <div class="form-group label-floating is-empty">
+    <label class="control-label text-mv-top">命令参数</label>
+      <input name="args" class="form-control form-control-text" type="text">
+      <span class="material-input"></span></div>
+  </div>
+    <div class="col-md-5">
+        <div class="form-group label-floating is-empty">
+            <span class="material-input"></span></div>
+    </div>
+</div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+            <input class="btn btn-secondary form-group justify-content-center" form="form-app-add" type="submit" value="提交">
+            </div>
+        </div>
+</form>
+</div>
+{% endblock %}
+

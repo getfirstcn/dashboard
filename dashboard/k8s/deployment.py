@@ -1,8 +1,11 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views import View
 from kubernetes import client,config
 from pprint import pprint
 import time
+# from datetime import datetime
+# from dateutil.tz import tzlocal,tzutc
 
 
 def deployment_apply(request):
@@ -85,15 +88,13 @@ def deployment_delete(request):
         body = client.V1DeleteOptions(api_version="apps/v1beta2",propagation_policy='Foreground')
         V1status=k8s_api.delete_namespaced_deployment(body=body, name=name, namespace=namespace)
         return V1status    
-    deploy = request.POST.get('deploy')
+    deploy = request.POST.get('name')
     nameSpace = request.POST.get('namespace')
-    print(request.method)
-    print(deploy,nameSpace)
     config.load_kube_config
-    resultDeploy=delete_deploy(nameSpace,deploy)
-    resultService=delete_service(nameSpace,deploy)
-    print(resultDeploy,resultService)
-    return JsonResponse('ok',safe=False)
+    result=delete_deploy(nameSpace,deploy)
+    print(type(result.to_dict()))
+    print('结果：',result)
+    return JsonResponse({'data':result.to_dict()},safe=False)
 
 def deployment_change(request):
     def changeDeployment(deployment,namespace,image,port):    
@@ -148,11 +149,63 @@ def deployment_detail(request):
         k8s_api=client.AppsV1beta2Api()
         resp=k8s_api.read_namespaced_deployment(name,namespace)
         return resp
+    def list_namespace_pods(namespace, label_selector):
+        config.load_kube_config()
+        k8s_api = client.CoreV1Api()
+        include_uninitialized = True
+        v1podList = k8s_api.list_namespaced_pod(namespace, include_uninitialized=include_uninitialized,label_selector=label_selector)
+        return v1podList
 
     deploymenyName=request.GET.get('name')
-    print(deploymenyName)
+    print('部署名称:%s' % deploymenyName)
     namespace=request.GET.get('namespace')
-    deployInfo=getDeployment(deploymenyName,namespace)
-    pprint(deployInfo.to_dict())
-    return render(request,'dashboard/kubernetes/appDetail.html',deployInfo.to_dict())
+    v1deployment=getDeployment(deploymenyName,namespace)
+    for k,v in v1deployment.spec.selector.match_labels.items():
+        label=k+'='+v
+        print('容器组选择标签：',label)
+    podlist=list_namespace_pods(namespace,label)
+    # print('容器组列表：\n',podlist)
+    # pprint('部署信息:\n', v1deployment.to_dict())
+    return render(request,'dashboard/kubernetes/appDetail.html',{'deployment':v1deployment.to_dict(),'podlist':podlist.items})
+
+class deployment_read(View):
+    def post(self,request):
+        name=request.POST.get('name')
+        namespace=request.POST.get('namespace')
+        config.load_kube_config()
+        api=client.AppsV1Api()
+        deployment=api.read_namespaced_deployment(name=name,namespace=namespace)
+        deployment.metadata.creation_timestamp = deployment.metadata.creation_timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        deployment.status.conditions = None
+        return JsonResponse(data=deployment.to_str(),safe=False)
+
+class deployment_modify(View):
+    def post(self,request):
+        value=request.POST.get('value')
+        print(value)
+        dict=eval(value)
+        name=dict['metadata']['name']
+        namespace=dict['metadata']['namespace']
+        config.load_kube_config()
+        api=client.AppsV1Api()
+        deployment=api.read_namespaced_deployment(name=name,namespace=namespace)
+        deployment.metadata.labels=dict['metadata']['labels']
+        deployment.metadata.name=dict['metadata']['name']
+        deployment.metadata.namespace=dict['metadata']['namespace']
+        deployment.spec.replicas=dict['spec']['replicas']
+        deployment.spec.selector.match_labels=dict['spec']['selector']['match_labels']
+        deployment.spec.template.metadata.labels=dict['spec']['template']['metadata']['labels']
+        deployment.spec.template.spec.containers[0].args=dict['spec']['template']['spec']['containers'][0]['args']
+        deployment.spec.template.spec.containers[0].command=dict['spec']['template']['spec']['containers'][0]['command']
+        deployment.spec.template.spec.containers[0].env=dict['spec']['template']['spec']['containers'][0]['env']
+        deployment.spec.template.spec.containers[0].image=dict['spec']['template']['spec']['containers'][0]['image']
+        deployment.spec.template.spec.containers[0].image_pull_policy=dict['spec']['template']['spec']['containers'][0]['image_pull_policy']
+        deployment.spec.template.spec.containers[0].name=dict['spec']['template']['spec']['containers'][0]['name']
+        deployment.spec.template.spec.containers[0].ports[0].container_port=dict['spec']['template']['spec']['containers'][0]['ports'][0]['container_port']
+        deployment.spec.template.spec.containers[0].ports[0].protocol=dict['spec']['template']['spec']['containers'][0]['ports'][0]['protocol']
+        print(deployment)
+        resp=api.replace_namespaced_deployment(name=name,namespace=namespace,body=deployment)
+        return JsonResponse(resp.to_dict(),safe=False)
+
+
 

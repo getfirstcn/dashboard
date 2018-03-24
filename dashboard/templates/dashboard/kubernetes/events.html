@@ -1,0 +1,142 @@
+{% extends 'dashboard/layout.html' %}
+{% block breadcrumb %}
+<div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">控制台</a>
+          </li>
+          <li class="breadcrumb-item active">事件</li>
+        </ol>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+{#    <div class="card-header">#}
+{#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>类型</th>
+              <th>节点</th>
+              <th>命名空间</th>
+              <th>组件</th>
+              <th>容器</th>
+              <th>开始时间</th>
+              <th>最近时间</th>
+              <th>次数</th>
+              <th>原因</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>类型</th>
+              <th>节点</th>
+              <th>命名空间</th>
+              <th>组件</th>
+              <th>容器</th>
+              <th>开始时间</th>
+              <th>最近时间</th>
+              <th>次数</th>
+              <th>原因</th>
+              <th>内容</th>
+          </tfoot>
+          <tbody>
+            {% for event in events %}
+            <tr>
+            <td>{{ event.type }}</td>
+            <td>{{ event.source.host }}</td>
+            <td>{{ event.metadata.namespace }}</td>
+            <td>{{ event.source.component }}</td>
+              <td><a href="/event/detail?name={{ event.metadata.name }}&namespace={{ event.metadata.namespace }}">{{ event.involved_object.name }}</a></td>
+              <td>{{ event.first_timestamp|date:"Y-m-d H:i:s"}}</td>
+              <td>{{ event.last_timestamp|date:"Y-m-d H:i:s"}}</td>
+              <td>{{ event.count}}</td>
+              <td>{{ event.reason}}</td>
+              <td>
+                  <div class="dropdown">
+                      {{ event.message  }}
+                    <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                      <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button data-name="{{ event.metadata.name }}" data-namespace="{{ event.metadata.namespace}}" class="dropdown-item event-delete-dropdown1">删除</button>
+                      </li>
+                        </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
+  </div>
+  {% endblock %}
+  {% block form %}
+              <div id="event-delete-form1" class="jumbotron mx-auto mt-5 w-50 position-fixed fixed-top" style="display: none">
+                  <div class="card-body">
+                      <h5 class="card-title">删除&nbsp;容器组</h5>
+                      <p class="card-text">确定删除命名空间中的容器组吗？</p><br>
+                      <div class="float-right w-25">
+                      <button id="event-delete-cancel1" class="btn" >取消</button>&nbsp; &nbsp; &nbsp; &nbsp;  <button id="event-delete-confirm1" class="btn">确定</button>
+                          </div>
+                      </div>
+                  </div>
+
+
+  <!-- log模态框 -->
+  <div class="modal fade" id="logModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+
+        <!-- 模态框头部 -->
+        <div class="modal-header">
+          <h4 class="modal-title">日志</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- 模态框主体 -->
+        <div class="modal-body">
+            <div id="event-log-box" class="pre-scrollable">
+                    加载...
+            </div>
+        </div>
+
+        <!-- 模态框底部 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{# event 模态框     #}
+  <div class="modal fade" id="eventModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+
+        <!-- 模态框头部 -->
+        <div class="modal-header">
+          <h4 class="modal-title">事件</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- 模态框主体 -->
+        <div class="modal-body">
+            <div id="event-event-content" class="pre-scrollable">
+                    加载...
+            </div>
+        </div>
+
+        <!-- 模态框底部 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    {% endblock %}

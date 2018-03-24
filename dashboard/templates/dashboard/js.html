@@ -1,0 +1,21 @@
+<html>
+<body>
+
+<script>
+var addENVnum = 0;
+function addInputENV(id) {
+    addENVnum++
+    var parent = document.getElementById(id)
+    var inputGroup = document.createElement("div").setAttribute("class", "input-group");
+    var input = document.createElement("input").setAttribute("name", "envKey"+addENVnum);
+    // input.className="form-control"
+    var span = document.createElement("span").className="ion-ios-close-empty ion-plus-btn";
+    var inputGroupPrepend=document.createElement("div").className="input-group-prepend"
+    inputGroupPrepend.appendChild(span)
+    inputGroup.appendChild(input).appendChild(inputGroupPrepend)
+    parent.appendChild(inputGroup)
+}
+document.getElementById("plus-env-intput").onclick=addInputENV("env-group-key")
+    </script>
+</body>
+</html>

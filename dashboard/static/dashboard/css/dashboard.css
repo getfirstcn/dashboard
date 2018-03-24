@@ -1,0 +1,80 @@
+.dropdown-more
+{
+    font-family: 'Material Icons';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    direction: ltr;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'liga';
+    float:right;
+}
+.position-createapp{
+    position: fixed;
+    top: 74px;
+    right: 18px;
+}
+
+.form-control, .form-group .form-control {
+    border: 0;
+    background-image: linear-gradient(rgb(156, 39, 176), rgb(156, 39, 176)), linear-gradient(rgb(210, 210, 210), rgb(210, 210, 210));
+    background-size: 0px 2px, 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center bottom, center calc(100% - 1px);
+    background-color: transparent;
+    transition: background 0s ease-out;
+    float: none;
+    box-shadow: none;
+    border-radius: 0;
+    font-weight: 400;
+}
+
+.form-control {
+    height: 36px;
+    padding: 7px 0;
+    font-size: 14px;
+    line-height: 1.4285;
+}
+
+.hidden-border{
+    border: 0;
+}
+
+.text-mv-top{
+    position: relative;
+    top: 35px;
+}
+
+.ion-plus-btn{
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    width: 42px;
+    list-style: none;
+    text-align: center;
+    font-weight: normal;
+    font-size: 32px;
+    cursor: pointer;
+    right: 20px;
+    /*color: orange;*/
+}
+span.ion-plus-btn:hover{
+    color: orange;
+}
+.input-group{
+    height: 36px;
+}
+.full-editor{
+    height: 700px;
+}
+.service-editor{
+    height: 500px;
+}
+.deployment-editor{
+    height: 500px;
+}
