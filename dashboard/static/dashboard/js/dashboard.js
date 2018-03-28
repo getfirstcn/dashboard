@@ -323,11 +323,13 @@ function delInputENV(node) {
 }
 
 var addServiceNum=1
-function addServiceInput(port,target,protocol) {
+function addServiceInput() {
     var inputPort=document.createElement("input")
     var inputPortTarget=document.createElement("input")
     var inputProtocolGroup=document.createElement("div");
-    var inputProtocol=document.createElement("input");
+    var inputProtocol=document.createElement("select");
+    var inputProtocolOption1=document.createElement("option");
+    var inputProtocolOption2=document.createElement("option");
     var inputProtocolGroupAppend=document.createElement("div");
     var inputProtocolspan=document.createElement("span");
     inputPort.className="form-control form-control-text"
@@ -342,17 +344,22 @@ function addServiceInput(port,target,protocol) {
     inputProtocolGroup.setAttribute("id","input-protocol-group-"+addServiceNum)
     inputProtocol.className="form-control form-control-text"
     inputProtocol.setAttribute("name","serviceProtocol")
-    inputProtocol.setAttribute("type","text")
+    inputProtocolOption1.setAttribute('value','TCP')
+    inputProtocolOption1.innerText='TCP'
+    inputProtocolOption2.setAttribute('value','UDP')
+    inputProtocolOption2.innerText='UDP'
     inputProtocolGroupAppend.className="input-group-append"
     inputProtocolspan.className="ion-ios-close-empty ion-plus-btn"
     inputProtocolspan.setAttribute("onclick","delServiceInput(this)")
     inputProtocolspan.setAttribute("data-num",addServiceNum)
+    inputProtocol.appendChild(inputProtocolOption1)
+    inputProtocol.appendChild(inputProtocolOption2)
     inputProtocolGroup.appendChild(inputProtocol)
     inputProtocolGroupAppend.appendChild(inputProtocolspan)
     inputProtocolGroup.appendChild(inputProtocolGroupAppend)
-    document.getElementById(port).appendChild(inputPort)
-    document.getElementById(target).appendChild(inputPortTarget)
-    document.getElementById(protocol).appendChild(inputProtocolGroup)
+    document.getElementById('service-group-port').appendChild(inputPort)
+    document.getElementById('service-group-target-port').appendChild(inputPortTarget)
+    document.getElementById('service-group-protocol').appendChild(inputProtocolGroup)
     addServiceNum++
 }
 
@@ -379,7 +386,7 @@ function delServiceInput(node) {
 
 //增加标签输入
 var addLableNum = 1
-function addLableInput(keyId,valueId) {
+function addLableInput() {
     var key=document.createElement('input');
     var value=document.createElement('input')
     var inputGroup=document.createElement("div")
@@ -401,8 +408,8 @@ function addLableInput(keyId,valueId) {
     inputGroupAppend.appendChild(span)
     inputGroup.appendChild(value)
     inputGroup.appendChild(inputGroupAppend)
-    document.getElementById(keyId).appendChild(key)
-    document.getElementById(valueId).appendChild(inputGroup)
+    document.getElementById('lable-key').appendChild(key)
+    document.getElementById('lable-value').appendChild(inputGroup)
     addLableNum++
 }
 // document.getElementById("plus-lable-input").addEventListener("click",function () {

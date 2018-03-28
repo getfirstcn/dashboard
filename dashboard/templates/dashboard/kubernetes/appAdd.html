@@ -85,14 +85,23 @@
         <div id="service-group-protocol" class="form-group label-floating is-empty">
             <label id="service-protocal-label-1" class="control-label text-mv-top">协议</label>
             <div class="input-group">
-            <input id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text" type="text">
+            <input id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text" list="protocol-list">
+                <datalist id="protocol-list">
+                    <option value="TCP"></option>
+                    <option value="UDP"></option>
+                </datalist>
                 <div class="input-group-append">
-            <span id="plus-service-input" class="ion-ios-plus-empty ion-plus-btn"></span>
+            <span id="plus-service-input" class="ion-ios-plus-empty ion-plus-btn" onclick="addServiceInput()"></span>
                     </div>
                 </div>
         </div>
     </div>
-    <div class="col-md-6"></div>
+    <div class="col-md-6">
+        <select style="width: 100px">
+            <option value="TCP">TCP</option>
+            <option value="UDP">UDP</option>
+        </select>
+    </div>
 </div>
 
         <div class="row">
@@ -125,7 +134,7 @@
       <div class="input-group">
       <input id="lable-value-input-0" name="labelValue" class="form-control form-control-text" type="text">
           <div class="input-group-append">
-      <span id="plus-lable-input" class="material-input ion-ios-plus-empty ion-plus-btn"></span>
+      <span id="plus-lable-input" class="material-input ion-ios-plus-empty ion-plus-btn" onclick="addLableInput()"></span>
           </div>
           </div>
       </div>

@@ -48,4 +48,15 @@ if __name__=="__main__":
     # time=datetime(2018, 3, 14, 2, 34, 39,tzinfo=tzlocal())
     # stime=time.strftime('%Y-%m-%d %H:%M:%S')
     # print(type(stime))
-    str_filter()
+    # str_filter()
+    config.load_kube_config()
+    name='eureka-server1-7547659986-shdn5'
+    namespace='default'
+    command='bash'
+    # container=
+    stderr = True
+    stdin = True
+    stdout = True
+    tty=True
+    api=client.CoreV1Api()
+    api.connect_get_namespaced_pod_exec(name=name,namespace=namespace,command=command,stderr=True,stdin=True,stdout=True)
