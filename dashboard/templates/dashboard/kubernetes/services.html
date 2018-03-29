@@ -46,7 +46,7 @@
               <td>{{ service.spec.cluster_ip }}</td>
               <td>{{ service.metadata.name }}:{{ service.spec.ports.0.port }}</td>
                 {% if service.spec.ports.0.node_port %}
-              <td><a href="http://192.168.137.50:{{ service.spec.ports.0.node_port }}">http://192.168.137.50:{{ service.spec.ports.0.node_port }}</a></td>
+              <td><a href="http://192.168.254.194:{{ service.spec.ports.0.node_port }}">http://192.168.254.194:{{ service.spec.ports.0.node_port }}</a></td>
                 {% else %}
                 <td> </td>
                 {% endif %}

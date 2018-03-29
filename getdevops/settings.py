@@ -25,12 +25,13 @@ SECRET_KEY = '*xu1=y-xp7&)y88aehjwy)kuc9vbg&f*_7(0@h!+@rm*izxx-9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'gunicorn',
     'dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -119,3 +120,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

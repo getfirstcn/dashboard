@@ -72,7 +72,7 @@ def deployment_apply(request):
     applyInfo['deployName'] = applyName
     applyInfo['createDate'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     applyInfo['deployStatus'] = '运行中'
-    applyInfo['accessAddress'] = 'http://192.168.137.50:'+str(nodePort)
+    applyInfo['accessAddress'] = 'http://192.168.254.194:'+str(nodePort)
     applyInfo['imageName'] = image
     return render(request, 'dashboard/kubernetes/deploymentDetail.html', applyInfo)
 
@@ -139,7 +139,7 @@ def deployment_change(request):
     applyInfo['deployName'] = applyName
     applyInfo['createDate'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     applyInfo['deployStatus'] = '运行中'
-    applyInfo['accessAddress'] = 'http://192.168.137.50:'+str(nodePort)
+    applyInfo['accessAddress'] = 'http://192.168.254.194:'+str(nodePort)
     applyInfo['imageName'] = image
     return render(request, 'dashboard/kubernetes/deploymentDetail.html', applyInfo)
 

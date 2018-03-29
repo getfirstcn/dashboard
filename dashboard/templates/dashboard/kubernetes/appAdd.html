@@ -38,7 +38,7 @@
   </div>
     <div class="col-md-5">
         <div class="form-group label-floating is-empty">
-            <label class="control-label">填入公司镜像仓库里的镜像名称，会自动匹配</label>
+            <label class="control-label">填入完整的镜像名称</label>
             <span class="material-input"></span></div>
     </div>
 </div>
@@ -85,11 +85,15 @@
         <div id="service-group-protocol" class="form-group label-floating is-empty">
             <label id="service-protocal-label-1" class="control-label text-mv-top">协议</label>
             <div class="input-group">
-            <input id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text" list="protocol-list">
-                <datalist id="protocol-list">
-                    <option value="TCP"></option>
-                    <option value="UDP"></option>
-                </datalist>
+{#            <input id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text" list="protocol-list">#}
+{#                <datalist id="protocol-list">#}
+{#                    <option value="TCP"></option>#}
+{#                    <option value="UDP"></option>#}
+{#                </datalist>#}
+                <select id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text">
+                    <option value="TCP">TCP</option>
+                    <option value="UDP">UDP</option>
+                </select>
                 <div class="input-group-append">
             <span id="plus-service-input" class="ion-ios-plus-empty ion-plus-btn" onclick="addServiceInput()"></span>
                     </div>
@@ -97,10 +101,6 @@
         </div>
     </div>
     <div class="col-md-6">
-        <select style="width: 100px">
-            <option value="TCP">TCP</option>
-            <option value="UDP">UDP</option>
-        </select>
     </div>
 </div>
 

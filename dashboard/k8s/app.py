@@ -80,7 +80,7 @@ def createDeployment(name,namespace,image,port,protocol,**kwargs):
             metadata=V1ObjectMeta
         )
         V1beta2DeploymentSpec = client.V1beta2DeploymentSpec(
-            replicas=1,
+            replicas=int(kwargs['rc']),
             selector=client.V1LabelSelector(match_labels=labels),
             template=V1PodTemplateSpec
         )
@@ -109,7 +109,7 @@ def createDeployment(name,namespace,image,port,protocol,**kwargs):
     # applyInfo['deployName'] = applyName
     # applyInfo['createDate'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     # applyInfo['deployStatus'] = '运行中'
-    # applyInfo['accessAddress'] = 'http://192.168.137.50:'+str(nodePort)
+    # applyInfo['accessAddress'] = 'http://192.168.254.194:'+str(nodePort)
     # applyInfo['imageName'] = image
     # return render(request, 'dashboard/kubernetes/deploymentDetail.html', applyInfo)
 
@@ -215,7 +215,7 @@ def deployment_apply(request):
     applyInfo['deployName'] = applyName
     applyInfo['createDate'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     applyInfo['deployStatus'] = '运行中'
-    applyInfo['accessAddress'] = 'http://192.168.137.50:'+str(nodePort)
+    applyInfo['accessAddress'] = 'http://192.168.254.194:'+str(nodePort)
     applyInfo['imageName'] = image
     return render(request, 'dashboard/kubernetes/deploymentDetail.html', applyInfo)
 
@@ -240,9 +240,9 @@ class  app_add(View):
         pprint(request.POST.get)
         service=createService(port=servicePort, targetPort=targetPort, protocol=serviceProtocol, labelKey=labelKey,labelValue=labelValue, name=app, namespace="default")
         deployment=createDeployment(name=app, namespace="default", image=image, port=targetPort, protocol=serviceProtocol,
-                                    envKey=envKey,envValue=envValue,
+                                    envKey=envKey, envValue=envValue,
                                     labelKey=labelKey, labelValue=labelValue,
-                                    rc=rc,command=command,args=args)
+                                    rc=rc, command=command, args=args)
         podslist=list_namespace_pods(namespace='default',labelKey=labelKey,labelValue=labelValue)
         return render(request,template_name='dashboard/kubernetes/application.html',context={"service":service,"deployment":deployment, 'podlist':podslist.items})
 
