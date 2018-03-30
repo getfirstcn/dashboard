@@ -1,5 +1,3 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -9,12 +7,9 @@
           <li class="breadcrumb-item active">命名空间</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="card mb-3">
 {#    <div class="card-header">#}
 {#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
-
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -37,7 +32,7 @@
           <tbody>
             {% for namespace in namespaces %}
             <tr>
-              <td><a href="/namespace/detail?name={{ namespace.metadata.name }}">{{ namespace.metadata.name }}</a></td>
+              <td><a href="javascript:;" onclick="namespaceDetail(this)" data-name={{ namespace.metadata.name }}>{{ namespace.metadata.name }}</a></td>
                 {% if namespace.metadata.labels %}
               <td>{{ namespace.metadata.labels}}</td>
                 {% else %}
@@ -52,14 +47,12 @@
                       <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <button data-name="{{ namespace.metadata.name }}"  class="dropdown-item namespace-delete-dropdown1">删除</button>
                       </li>
-                        </div>
+                </div>
               </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-    </div>
     <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
   </div>
- {% endblock %}

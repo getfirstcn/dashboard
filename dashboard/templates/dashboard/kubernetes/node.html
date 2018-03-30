@@ -1,5 +1,3 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -7,13 +5,11 @@
             <a href="/">控制台</a>
           </li>
             <li class="breadcrumb-item">
-            <a href="/pods/">节点</a>
+            <a onclick="nodes()" href="javascript:;">节点</a>
           </li>
           <li class="breadcrumb-item active">节点详细</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="container-fluid">
    <div class="card">
       <h5 class="card-header">节点</h5>
@@ -104,7 +100,7 @@
                     <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </button>
                       <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <button data-name="{{ image.names.1 }}" class="dropdown-item">查看日志</button>
+                            <button data-name="{{ image.names.1 }}" class="dropdown-item">查看详细</button>
                             <button data-name="{{ image.names.1 }}" class="dropdown-item pod-delete-dropdown1">删除</button>
                       </li>
                   </div>
@@ -117,4 +113,3 @@
 </div>
 </div>
 </div>
-{% endblock %}

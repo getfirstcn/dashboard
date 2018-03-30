@@ -38,3 +38,17 @@ def get(request):
         # return JsonResponse(event,safe=False)
         return HttpResponse(event)
 
+class list_event_all(View):
+    def post(self,request):
+        config.load_kube_config()
+        api=client.CoreV1Api()
+        events=api.list_event_for_all_namespaces().items
+        # print(events)
+        return render(request,template_name='dashboard/tables/events.html',context={'events':events})
+    def get(self,request):
+        config.load_kube_config()
+        api=client.CoreV1Api()
+        events=api.list_event_for_all_namespaces().items
+        # print(events)
+        return render(request,template_name='dashboard/kubernetes/events.html',context={'events':events})
+

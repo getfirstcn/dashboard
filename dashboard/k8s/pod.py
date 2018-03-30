@@ -5,12 +5,13 @@ from pprint import pprint
 from kubernetes import config,client
 
 def pod_detail(request):
-    podName=request.GET.get('name')
-    namespace=request.GET.get('namespace')
+    podName=request.POST.get('name')
+    namespace=request.POST.get('namespace')
     # print('podNma:%s,namespace:%s'% podName,namespace)
     resp=podStatus(podName,namespace).to_dict()
     pprint(resp)
     return render(request,template_name='dashboard/kubernetes/podDetail.html',context=resp)
+
 def podStatus(name,namespace):
         config.load_kube_config()
         k8s_api=client.CoreV1Api()

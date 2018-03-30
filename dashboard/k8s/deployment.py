@@ -156,9 +156,9 @@ def deployment_detail(request):
         v1podList = k8s_api.list_namespaced_pod(namespace, include_uninitialized=include_uninitialized,label_selector=label_selector)
         return v1podList
 
-    deploymenyName=request.GET.get('name')
+    deploymenyName=request.POST.get('name')
     print('部署名称:%s' % deploymenyName)
-    namespace=request.GET.get('namespace')
+    namespace=request.POST.get('namespace')
     v1deployment=getDeployment(deploymenyName,namespace)
     for k,v in v1deployment.spec.selector.match_labels.items():
         label=k+'='+v
@@ -166,7 +166,7 @@ def deployment_detail(request):
     podlist=list_namespace_pods(namespace,label)
     # print('容器组列表：\n',podlist)
     # pprint('部署信息:\n', v1deployment.to_dict())
-    return render(request,'dashboard/kubernetes/appDetail.html',{'deployment':v1deployment.to_dict(),'podlist':podlist.items})
+    return render(request,'dashboard/kubernetes/deployment.html',{'deployment':v1deployment.to_dict(),'podlist':podlist.items})
 
 class deployment_read(View):
     def post(self,request):

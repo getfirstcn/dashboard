@@ -1,5 +1,3 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -9,8 +7,6 @@
           <li class="breadcrumb-item active">节点</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="card mb-3">
 {#    <div class="card-header">#}
 {#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
@@ -37,7 +33,7 @@
           <tbody>
             {% for node in nodes %}
             <tr>
-              <td><a href="/node/detail?name={{ node.metadata.name }}">{{ node.metadata.name }}</a></td>
+              <td><a onclick="nodeDetail(this)" href="javascript:;" data-name={{ node.metadata.name }}>{{ node.metadata.name }}</a></td>
               <td>{{ node.status.node_info.os_image }}</td>
               <td>{{ node.status.addresses.0.address }}</td>
               <td>
@@ -58,4 +54,3 @@
     </div>
     <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
   </div>
- {% endblock %}

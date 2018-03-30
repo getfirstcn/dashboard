@@ -1,11 +1,10 @@
-
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="/">控制台</a>
           </li>
-          <li class="breadcrumb-item active">配置</li>
+          <li class="breadcrumb-item active">持久卷</li>
         </ol>
 </div>
 <div class="card mb-3">
@@ -30,17 +29,17 @@
             </tr>
           </tfoot>
           <tbody>
-            {% for configmap in configmaps %}
+            {% for secret in secrets %}
             <tr>
-              <td><a onclick="configmapDetail(this)" href="javascript:;" data-name={{ configmap.metadata.name }} data-namespace={{ configmap.metadata.namespace }}>{{ configmap.metadata.name }}</a></td>
-              <td>{{ configmap.metadata.namespace }}</td>
+              <td><a href="/secret/detail?name={{ secret.metadata.name }}&namespace={{ secret.metadata.namespace }}">{{ secret.metadata.name }}</a></td>
+              <td>{{ secret.metadata.namespace }}</td>
               <td>
                   <div class="dropdown">
-                      {{ configmap.metadata.creation_timestamp|date:"Y-m-d H:i:s"  }}
+                      {{ secret.metadata.creation_timestamp|date:"Y-m-d H:i:s"  }}
                     <button class="dropdown-more ion-android-more-vertical" align="right" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </button>
                       <li class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <button data-name="{{ configmap.namespace.metadata.name }}"  class="dropdown-item namespace-delete-dropdown1">删除</button>
+                            <button data-name="{{ secret.namespace.metadata.name }}"  class="dropdown-item secret-delete-dropdown1">删除</button>
                       </li>
                         </div>
               </td>

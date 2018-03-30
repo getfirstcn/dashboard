@@ -1,6 +1,7 @@
 from django.http import JsonResponse,HttpResponse
 from  django.shortcuts import render
 from django.views import View
+from django.views.generic.base import TemplateView
 from pprint import pprint
 from kubernetes import config,client
 import time
@@ -246,7 +247,7 @@ class  app_add(View):
         podslist=list_namespace_pods(namespace='default',labelKey=labelKey,labelValue=labelValue)
         return render(request,template_name='dashboard/kubernetes/application.html',context={"service":service,"deployment":deployment, 'podlist':podslist.items})
 
-class application(View):
+class application_list(View):
     def get(self,request,*args,**kwargs):
         config.load_kube_config()
         k8s_api = client.AppsV1beta2Api()
@@ -256,9 +257,9 @@ class application(View):
         return
 
 class application_detail(View):
-    def get(self,request):
-        name=request.GET.get('name')
-        namespace=request.GET.get('namespace')
+    def post(self,request):
+        name=request.POST.get('name')
+        namespace=request.POST.get('namespace')
         deployment=getDeployment(name,namespace)
         service=getService(name,namespace)
         for key in deployment.metadata.labels:
@@ -277,6 +278,14 @@ class application_delete(View):
         s1status=delete_service(namespace=namespace,name=name)
         print("service status",s1status)
         return HttpResponse(s1status.to_dict())
+
+
+class application_form(TemplateView):
+    template_name = "dashboard/kubernetes/appAdd.html"
+
+
+
+
 
 
 if __name__=='__main__':

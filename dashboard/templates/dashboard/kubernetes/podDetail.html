@@ -1,5 +1,3 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -7,13 +5,11 @@
             <a href="/">控制台</a>
           </li>
             <li class="breadcrumb-item">
-            <a href="/pods/">容器组</a>
+            <a onclick="pods()" href="javascript:;">容器组</a>
           </li>
           <li class="breadcrumb-item active">容器详细</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="container-fluid">
    <div class="card">
       <h5 class="card-header">详细</h5>
@@ -81,4 +77,3 @@
           </div>
       </div>
 </div>
-{% endblock %}

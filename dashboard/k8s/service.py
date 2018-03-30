@@ -14,7 +14,7 @@ def list_namespace_pods(namespace,label_selector):
     v1podList=k8s_api.list_namespaced_pod(namespace,include_uninitialized=include_uninitialized,label_selector=label_selector)
     return v1podList
 
-class service_detail(View):
+class service_modify(View):
     def post(self,request):
         config.load_kube_config()
         k8s_api = client.CoreV1Api()
@@ -25,11 +25,13 @@ class service_detail(View):
         resp.metadata.creation_timestamp=resp.metadata.creation_timestamp.strftime('%Y-%m-%d %H:%M:%S')
         return JsonResponse(resp.to_str(),safe=False)
 
-    def get(self,request):
+
+class service_detail(View):
+    def post(self,request):
         config.load_kube_config()
         k8s_api = client.CoreV1Api()
-        name = request.GET.get("name")
-        namespace = request.GET.get("namespace")
+        name = request.POST.get("name")
+        namespace = request.POST.get("namespace")
         print(name, namespace)
         resp = k8s_api.read_namespaced_service(name, namespace, exact=True)
         pprint(resp)
@@ -39,8 +41,7 @@ class service_detail(View):
         print(label_selector)
         podlist = list_namespace_pods(namespace, label_selector).items
         print(podlist)
-        return render(request, 'dashboard/kubernetes/serviceDetail.html',
-                      context={'service': resp.to_dict(), 'podlist': podlist})
+        return render(request, 'dashboard/kubernetes/serviceDetail.html',context={'service': resp.to_dict(), 'podlist': podlist})
 
 
 def service_delete(request):

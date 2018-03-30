@@ -4,11 +4,14 @@ from . import repositories
 from .k8s import deployment_apply, deployment_delete, deployment_change, deployment_detail
 from .account import account_login,account_logout
 from .k8s.pod import pod_detail,pod_delete,get_pod_log,get_pod_event
-from .k8s.service import service_detail,service_delete
-from .k8s.app import app_add,application,application_detail,application_delete
+from .k8s.service import service_detail,service_delete,service_modify
+from .k8s.application import app_add,application_list,application_detail,application_delete
 from .k8s import namespace
 from .k8s import node,configmap,secret,event,editor,service
 from .k8s import deployment
+from .k8s import application
+from .k8s import persistentvolume,serviceaccount
+from .k8s import role,ingress,endpoint
 
 
 
@@ -17,8 +20,8 @@ urlpatterns = [
     path('editor/',editor.service_editer.as_view()),
     path('namespaces/',namespace.list_namespaces.as_view()),
     path('namespace/detail/',namespace.namespace_detail.as_view()),
-    path('namespace/event/',namespace.list_event_all.as_view()),
-    path('events/',namespace.list_event_all.as_view()),
+    path('namespace/event/',event.list_event_all.as_view()),
+    path('events/',event.list_event_all.as_view()),
     path('event/detail/',event.event_detail.as_view()),
     # path('event/detail/',event.get),
     path('nodes/',node.nodes.as_view()),
@@ -36,12 +39,13 @@ urlpatterns = [
     path('pod/delete/',pod_delete),
     path('pod/log/',get_pod_log.as_view()),
     path('pod/event/',get_pod_event.as_view()),
-    path('persistentvolumes/',views.index),
-    path('roles/',views.index),
-    path('ingresses/',views.index),
-    path('endpoints/',views.index),
-    path('serviceaccounts/',views.index),
-    path('applications/', application.as_view()),
+    path('persistentvolumes/',persistentvolume.persistentvolume_list.as_view()),
+    path('roles/',role.role_list.as_view()),
+    path('ingresses/',ingress.ingress_list.as_view()),
+    path('endpoints/',endpoint.endpoint_list.as_view()),
+    path('serviceaccounts/',serviceaccount.serviceacount_list.as_view()),
+    path('applications/', application_list.as_view()),
+    path('application/form/', application.application_form.as_view()),
     path('application/detail/', application_detail.as_view()),
     path('application/delete/', application_delete.as_view()),
     path('deployments/', views.deployments_list),
@@ -53,6 +57,7 @@ urlpatterns = [
     path('deployment/modify/', deployment.deployment_modify.as_view()),
     path('services/', views.services_list),
     path('service/detail/', service_detail.as_view()),
+    path('service/modify/', service_modify.as_view()),
     path('service/delete/', service_delete),
     path('service/update/', service.service_update.as_view()),
     path('links/', views.links_list),

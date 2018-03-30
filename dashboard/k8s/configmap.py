@@ -14,9 +14,9 @@ class configmaps(View):
         return render(request,template_name='dashboard/kubernetes/configmaps.html',context={"configmaps":configmaps})
 
 class configmap_detail(View):
-    def get(self,request):
-        name=request.GET.get('name')
-        namespace=request.GET.get('namespace')
+    def post(self,request):
+        name=request.POST.get('name')
+        namespace=request.POST.get('namespace')
         config.load_kube_config()
         api=client.CoreV1Api()
         configmap=api.read_namespaced_config_map(name,namespace).to_dict()

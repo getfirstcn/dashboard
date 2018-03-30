@@ -26,20 +26,20 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">合时代-运维</a>
+    <a class="navbar-brand" href="/">合时代-运维</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">控制台</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="/monitor">
+          <a id="monitor-nav" class="nav-link" href="/monitor/">
             <i class="fa fa-fw fa-area-chart"></i>
             <span class="nav-link-text">监控</span>
           </a>
@@ -51,10 +51,10 @@
           </a>
           <ul class="sidenav-second-level collapse" id="collapseMulti">
             <li>
-              <a href="/namespaces/">命名空间</a>
+              <a id="namespace-nav" href="javascript:;">命名空间</a>
             </li>
             <li>
-              <a href="/nodes/">节点</a>
+              <a id="node-nav" href="javascript:;">节点</a>
             </li>
 {#            <li>#}
 {#              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>#}
@@ -79,19 +79,19 @@
           </a>
           <ul class="sidenav-second-level collapse" id="collapseExamplePages">
             <li>
-              <a href="/configmaps/">配置</a>
+              <a id="configmap-nav" href="javascript:;">配置</a>
             </li>
             <li>
-              <a href="/secrets/">秘密</a>
+              <a id="secret-nav" href="javascript:;">秘密</a>
             </li>
             <li>
-              <a href="persistentvolumes/">持久卷</a>
+              <a id="persistentvolume-nav" href="javascript:;">持久卷</a>
             </li>
              <li>
-              <a href="/roles/">角色</a>
+              <a id="role-nav" href="javascript:;">角色</a>
             </li>
             <li>
-              <a href="/serviceaccounts/">服务账户</a>
+              <a id="serviceaccount-nav" href="javascript:;">服务账户</a>
             </li>
           </ul>
         </li>
@@ -102,41 +102,39 @@
           </a>
           <ul class="sidenav-second-level collapse" id="ingressAddressPages">
             <li>
-              <a href="/ingresses/">入口</a>
+              <a id="ingress-nav" href="javascript:;">入口</a>
             </li>
             <li>
-              <a href="/endpoints/">端点</a>
+              <a id="endpoint-nav" href="javascript:;">端点</a>
             </li>
           </ul>
         </li>
-
-        </li>
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="/applications">
+          <a id="application-nav" class="nav-link" href="javascript:;">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">应用</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="/deployments">
+          <a id="deployment-nav" class="nav-link" href="javascript:;">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">部署</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="/pods">
+          <a id="pod-nav" class="nav-link" href="javascript:;">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">容器组</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="/services">
+          <a id="service-nav" class="nav-link" href="javascript:;">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">服务</span>
           </a>
         </li>
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="/events">
+          <a id="event-nav" class="nav-link" href="javascript:;">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">事件</span>
           </a>
@@ -245,6 +243,7 @@
     </div>
   </nav>
   <div class="content-wrapper">
+  <div id="content-main">
     {% block breadcrumb %}
     <div class="container-fluid">
       <!-- Breadcrumbs-->
@@ -264,6 +263,7 @@
       {% block form %}
     {% endblock %}
 {#  创建部署按钮#}
+  </div>
   {% include 'dashboard/kubernetes/buttonAddApps.html' %}
     <footer class="sticky-footer">
       <div class="container-fluid">

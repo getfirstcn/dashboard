@@ -1,16 +1,12 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="/">控制台</a>
           </li>
-          <li class="breadcrumb-item active">容器组</li>
+          <li class="breadcrumb-item active">容器</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="card mb-3">
 {#    <div class="card-header">#}
 {#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
@@ -45,7 +41,10 @@
           <tbody>
             {% for pod in pods %}
             <tr>
-              <td><input type="checkbox" data-name={{ pod.metadata.name }}><a href="/pod/detail?name={{ pod.metadata.name }}&namespace={{ pod.metadata.namespace }}">{{ pod.metadata.name }}</a></td>
+              <td>
+                  <input type="checkbox" data-name={{ pod.metadata.name }}>
+                  <a href="javascript:;" onclick="podDetail(this)" data-name={{ pod.metadata.name }} data-namespace={{ pod.metadata.namespace }}>{{ pod.metadata.name }}</a>
+              </td>
               <td>{{ pod.metadata.namespace}}</td>
               <td>{{ pod.status.host_ip }}</td>
               <td>{{ pod.status.pod_ip }}</td>
@@ -74,7 +73,6 @@
     </div>
     <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
   </div>
-  {% endblock %}
   {% block form %}
               <div id="pod-delete-form1" class="jumbotron mx-auto mt-5 w-50 position-fixed fixed-top" style="display: none">
                   <div class="card-body">
@@ -137,5 +135,4 @@
       </div>
     </div>
   </div>
-
     {% endblock %}

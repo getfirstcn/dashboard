@@ -231,7 +231,9 @@ $(function () {
 //显示应用表单
 $(function(){
     $("#app-create-btn1").click(function(){
-        $("#form-create-app1").show();
+        $.get("/application/form/",function (data) {
+            $("#content-main").html(data)
+        })
         // $.get('/project/', function(projects){
         //     for (i in projects)
         //     {
@@ -538,7 +540,7 @@ function modify_service(node) {
     var namespace=node.getAttribute('data-namespace')
     var titleNode=document.getElementById('modify-service-title')
     titleNode.innerHTML='修改服务:'+name
-    $.post('/service/detail/',{'name':name,'namespace':namespace},function (data) {
+    $.post('/service/modify/',{'name':name,'namespace':namespace},function (data) {
         console.log(data)
         if(typeof (editor) == "object"){
             editor.setValue(data)
@@ -606,8 +608,286 @@ $(function () {
         // $('#service-editor').children().remove();
 })
 
+//命名空间namespace
+$(function () {
+    $("#namespace-nav").click(function () {
+        $.get("/namespaces/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+
+function namespaces() {
+    $.get("/namespaces/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//节点侧边栏
+$(function () {
+    $("#node-nav").click(function () {
+        $.get("/nodes/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function nodes() {
+    $.get("/nodes/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//配置侧边栏
+$(function () {
+    $("#configmap-nav").click(function () {
+        $.get("/configmaps/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+
+function configmaps() {
+    $.get("/configmaps/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//凭据侧边栏
+$(function () {
+    $("#secret-nav").click(function () {
+        $.get("/secrets/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function secrets() {
+    $.get("/secrets/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//持久卷侧边栏
+$(function () {
+    $("#persistentvolume-nav").click(function () {
+        $.get("/persistentvolumes/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function persistentvolumes() {
+    $.get("/persistentvolumes/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//角色侧边栏
+$(function () {
+    $("#role-nav").click(function () {
+        $.get("/roles/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function roles() {
+    $.get("/roles/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//服务账户侧边栏
+$(function () {
+    $("#serviceaccount-nav").click(function () {
+        $.get("/serviceaccounts/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function serviceaccounts() {
+    $.get("/serviceaccounts/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//ingress-nav入口
+$(function () {
+    $("#ingress-nav").click(function () {
+        $.get("/ingresses/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function ingresses() {
+    $.get("/ingresses/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//端点
+$(function () {
+    $("#endpoint-nav").click(function () {
+        $.get("/endpoints/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function endpoints() {
+    $.get("/endpoints/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//监控
+$(function () {
+    $("#monitor-nav").click(function () {
+        $.get("/monitor/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+
+//应用
+$(function () {
+    $("#application-nav").click(function () {
+        $.get("/applications/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function applications() {
+    $.get("/applications/",function (data) {
+        $("#content-main").html(data)
+    })
+}
 
 
+//部署
+$(function () {
+    $("#deployment-nav").click(function () {
+        $.get("/deployments/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function deployments() {
+    $.get("/deployments/",function (data) {
+        $("#content-main").html(data)
+    })
+}
 
+//容器
+$(function () {
+    $("#pod-nav").click(function () {
+        $.get("/pods/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function pods() {
+    $.get("/pods/",function (data) {
+        $("#content-main").html(data)
+    })
+}
 
+//服务
+$(function () {
+    $("#service-nav").click(function () {
+        $.get("/services/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+function services() {
+    $.get("/services/",function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//事件
+$(function () {
+    $("#event-nav").click(function () {
+        $.get("/events/",function (data) {
+            $("#content-main").html(data)
+        })
+    })
+})
+
+//应用详细获取
+function applicationDetail(node) {
+    var name=node.getAttribute("data-name")
+    var namespace=node.getAttribute("data-namespace")
+    $.post("/application/detail/",{"name":name,"namespace":namespace},function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//部署详细获取
+function deploymentDetail(node) {
+    var name=node.getAttribute("data-name")
+    var namespace=node.getAttribute("data-namespace")
+    $.post("/deployment/detail/",{"name":name,"namespace":namespace},function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//服务详细获取
+function serviceDetail(node) {
+    var name=node.getAttribute("data-name")
+    var namespace=node.getAttribute("data-namespace")
+    console.log(name,namespace)
+    $.post("/service/detail/",{"name":name,"namespace":namespace},function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+//服务详细获取
+function eventDetail(node) {
+    var name=node.getAttribute("data-name")
+    var namespace=node.getAttribute("data-namespace")
+    console.log(name,namespace)
+    // $.post("/event/detail/",{"name":name,"namespace":namespace},function (data) {
+    //     $("#content-main").html(data)
+    // })
+}
+
+function namespaceDetail(node) {
+    var name = node.getAttribute("data-name")
+    console.log(name)
+    $.post("/namespace/detail/", {"name": name}, function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+function nodeDetail(node) {
+    var name = node.getAttribute("data-name")
+    console.log(name)
+    $.post("/node/detail/", {"name": name}, function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+function configmapDetail(node) {
+    var name = node.getAttribute("data-name")
+    var namespace = node.getAttribute("data-namespace")
+    console.log(name,namespace)
+    $.post("/configmap/detail/", {"name": name, "namespace":namespace}, function (data) {
+        $("#content-main").html(data)
+    })
+}
+
+function secretDetail(node) {
+    var name = node.getAttribute("data-name")
+    var namespace = node.getAttribute("data-namespace")
+    console.log(name,namespace)
+    $.post("/secret/detail/", {"name": name, "namespace":namespace}, function (data) {
+        $("#content-main").html(data)
+    })
+}
+function podDetail(node) {
+    var name = node.getAttribute("data-name")
+    var namespace = node.getAttribute("data-namespace")
+    console.log(name,namespace)
+    $.post("/pod/detail/", {"name": name, "namespace":namespace}, function (data) {
+        $("#content-main").html(data)
+    })
+}
 

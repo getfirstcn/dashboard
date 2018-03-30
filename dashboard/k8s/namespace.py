@@ -16,29 +16,13 @@ class list_namespaces(View):
         # return HttpResponse('ok')
 
 class namespace_detail(View):
-    def get(self,request):
-        name=request.GET.get('name')
+    def post(self,request):
+        name=request.POST.get('name')
         config.load_kube_config()
         api=client.CoreV1Api()
         namespace=api.read_namespace(name=name)
         pprint(namespace)
         return render(request,template_name='dashboard/kubernetes/namespace.html',context={'namespace':namespace.to_dict()})
-
-class list_event_all(View):
-    def post(self,request):
-        config.load_kube_config()
-        api=client.CoreV1Api()
-        events=api.list_event_for_all_namespaces().items
-        # print(events)
-        return render(request,template_name='dashboard/tables/events.html',context={'events':events})
-    def get(self,request):
-        config.load_kube_config()
-        api=client.CoreV1Api()
-        events=api.list_event_for_all_namespaces().items
-        # print(events)
-        return render(request,template_name='dashboard/kubernetes/events.html',context={'events':events})
-
-
 
 if __name__=='__main__':
     def get():

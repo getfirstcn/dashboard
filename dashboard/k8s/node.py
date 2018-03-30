@@ -14,8 +14,8 @@ class nodes(View):
         return render(request,template_name='dashboard/kubernetes/nodes.html',context={'nodes':nodes})
 
 class node_detail(View):
-    def get(self,request):
-        name=request.GET.get('name')
+    def post(self,request):
+        name=request.POST.get('name')
         config.load_kube_config()
         api=client.CoreV1Api()
         node=api.read_node(name).to_dict()

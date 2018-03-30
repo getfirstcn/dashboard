@@ -1,16 +1,12 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="/">控制台</a>
           </li>
-          <li class="breadcrumb-item active">容器组</li>
+          <li class="breadcrumb-item active">角色</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="card mb-3">
 {#    <div class="card-header">#}
 {#      <i class="fa fa-table"></i><button class="btn-secondary">执行</button></div>#}
@@ -73,15 +69,3 @@
     </div>
     <div class="card-footer small text-muted">更新：{% now "Y-m-d H:i:s l" %}</div>
   </div>
-  {% endblock %}
-  {% block form %}
-              <div id="pod-delete-form1" class="jumbotron mx-auto mt-5 w-50 position-fixed fixed-top" style="display: none">
-                  <div class="card-body">
-                      <h5 class="card-title">删除&nbsp;容器组</h5>
-                      <p class="card-text">确定删除命名空间中的容器组吗？</p><br>
-                      <div class="float-right w-25">
-                      <button id="pod-delete-cancel1" class="btn" >取消</button>&nbsp; &nbsp; &nbsp; &nbsp;  <button id="pod-delete-confirm1" class="btn">确定</button>
-                          </div>
-                      </div>
-                  </div>
-    {% endblock %}

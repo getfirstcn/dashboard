@@ -14,9 +14,9 @@ class cecrets(View):
         return render(request,template_name='dashboard/kubernetes/secrets.html',context={"secrets":secrets})
 
 class secret_detail(View):
-    def get(self,request):
-        name=request.GET.get('name')
-        namespace=request.GET.get('namespace')
+    def post(self,request):
+        name=request.POST.get('name')
+        namespace=request.POST.get('namespace')
         print(namespace,name)
         api=client.CoreV1Api()
         secret=api.read_namespaced_secret(name=name,namespace=namespace).to_dict()

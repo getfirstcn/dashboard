@@ -1,5 +1,3 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -7,13 +5,12 @@
             <a href="/">控制台</a>
           </li>
             <li class="breadcrumb-item">
-            <a href="/configmaps/">配置</a>
+            <a onclick="configmaps()" href="javascript:;">配置</a>
           </li>
           <li class="breadcrumb-item active">配置详细</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
+
 <div class="container-fluid">
    <div class="card">
       <h5 class="card-header">配置</h5>
@@ -81,4 +78,3 @@
           </div>
       </div>
 </div>
-{% endblock %}

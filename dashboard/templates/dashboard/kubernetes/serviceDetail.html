@@ -1,5 +1,3 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
 <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -7,13 +5,11 @@
             <a href="/">控制台</a>
           </li>
             <li class="breadcrumb-item">
-            <a href="/services/">服务</a>
+            <a onclick="services()" href="javascript:;">服务</a>
           </li>
           <li class="breadcrumb-item active">服务详细</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
 <div class="container-fluid">
    <div class="card">
       <h5 class="card-header">详细</h5>
@@ -110,7 +106,10 @@
           <tbody>
             {% for pod in podlist %}
             <tr>
-              <td><input type="checkbox" data-name={{ pod.metadata.name }}><a href="/pod/detail?name={{ pod.metadata.name }}&namespace={{ pod.metadata.namespace }}">{{ pod.metadata.name }}</a></td>
+              <td>
+                  <input type="checkbox" data-name={{ pod.metadata.name }}>
+                  <a href="javascript:;" onclick="podDetail(this)" data-name={{ pod.metadata.name }} data-namespace={{ pod.metadata.namespace }}>{{ pod.metadata.name }}</a>
+              </td>
               <td>{{ pod.metadata.namespace}}</td>
               <td>{{ pod.status.host_ip }}</td>
               <td>{{ pod.status.pod_ip }}</td>
@@ -138,15 +137,12 @@
       </div>
    </div>
 </div>
-{% endblock %}
-  {% block form %}
-              <div id="pod-delete-form1" class="jumbotron mx-auto mt-5 w-50 position-fixed fixed-top" style="display: none">
-                  <div class="card-body">
+<div id="pod-delete-form1" class="jumbotron mx-auto mt-5 w-50 position-fixed fixed-top" style="display: none">
+ <div class="card-body">
                       <h5 class="card-title">删除&nbsp;容器组</h5>
                       <p class="card-text">确定删除命名空间中的容器组吗？</p><br>
                       <div class="float-right w-25">
                       <button id="pod-delete-cancel1" class="btn" >取消</button>&nbsp; &nbsp; &nbsp; &nbsp;  <button id="pod-delete-confirm1" class="btn">确定</button>
                           </div>
                       </div>
-                  </div>
-  {% endblock %}
+</div>

@@ -1,39 +1,37 @@
-{% extends 'dashboard/layout.html' %}
-{% block breadcrumb %}
-<div class="container-fluid">
+<div id="breadcrumb" class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="/">控制台</a>
           </li>
             <li class="breadcrumb-item">
-            <a href="/app/">应用</a>
+            <a href="/applications/">应用</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">创建应用</li>
         </ol>
 </div>
-{% endblock %}
-{% block content %}
-    <div class="container-fluid">
+<div class="container-fluid">
     <form id="form-app-add" action="/app/add/" method="post" autocomplete="on">
 <div class="row">
   <div class="col-md-7">
   <div class="form-group label-floating is-empty">
     <label class="control-label text-mv-top">应用</label>
-      <input name="app" class="form-control  form-control-text" type="text">
-      <span class="material-input"></span></div>
+      <input name="app" class="form-control  form-control-text" type="text" required>
+      <span class="material-input"></span>
+  </div>
   </div>
     <div class="col-md-5">
         <div class="form-group label-floating is-empty">
             <label class="control-label">应用名称会做为标签添加到部署和部署的服务上,应用名称会做为标签添加到部署和部署的服务上,应用名称会做为标签添加到部署和部署的服务上</label>
-            <span class="material-input"></span></div>
+            <span class="material-input"></span>
+         </div>
     </div>
 </div>
         <div class="row">
   <div class="col-md-7">
   <div class="form-group label-floating is-empty">
     <label class="control-label text-mv-top">镜像名称</label>
-      <input name="image" class="form-control form-control-text" type="text">
+      <input name="image" class="form-control form-control-text" type="text" required>
       <span class="material-input"></span></div>
   </div>
     <div class="col-md-5">
@@ -42,11 +40,11 @@
             <span class="material-input"></span></div>
     </div>
 </div>
-                <div class="row">
+<div class="row">
   <div class="col-md-7">
   <div class="form-group label-floating is-empty">
     <label class="control-label text-mv-top">容器组个数</label>
-      <input name="rc" class="form-control form-control-text" type="text">
+      <input name="rc" class="form-control form-control-text" type="text" required>
       <span class="material-input"></span></div>
   </div>
     <div class="col-md-5">
@@ -55,7 +53,6 @@
             <span class="material-input"></span></div>
     </div>
 </div>
-
 <div class="row">
   <div class="col-md-7">
   <div class="form-group label-floating is-empty">
@@ -72,18 +69,18 @@
   <div class="col-md-2">
   <div id="service-group-port" class="form-group label-floating is-empty">
     <label class="control-label text-mv-top">端口</label>
-      <input name="servicePort" class="form-control form-control-text" type="int">
+      <input name="servicePort" class="form-control form-control-text" type="int" required>
       <span class="material-input"></span></div>
   </div>
     <div class="col-md-2">
         <div id="service-group-target-port" class="form-group label-floating is-empty">
             <label class="control-label text-mv-top">目标端口</label>
-            <input name="targetPort" class="form-control form-control-text" type="int">
+            <input name="targetPort" class="form-control form-control-text" type="int" required>
             <span class="material-input"></span></div>
     </div>
         <div class="col-md-3">
         <div id="service-group-protocol" class="form-group label-floating is-empty">
-            <label id="service-protocal-label-1" class="control-label text-mv-top">协议</label>
+            <label id="service-protocal-label-1" class="control-label text-mv-top"></label>
             <div class="input-group">
 {#            <input id="service-protocol-1" name="serviceProtocol" class="form-control form-control-text" list="protocol-list">#}
 {#                <datalist id="protocol-list">#}
@@ -103,8 +100,7 @@
     <div class="col-md-6">
     </div>
 </div>
-
-        <div class="row">
+<div class="row">
   <div class="col-md-7">
   <div class="form-group label-floating is-empty">
     <label class="control-label text-mv-top">描述</label>
@@ -207,5 +203,5 @@
         </div>
 </form>
 </div>
-{% endblock %}
+
 
